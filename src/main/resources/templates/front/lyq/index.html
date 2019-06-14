@@ -1,0 +1,315 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>用户登陆-中州爱旅游</title>
+    <link type="text/css" th:href="@{/static/front_css/-f=-res-css-base.css,-res-css-user.css,-res-css-extend.css}" rel="stylesheet"/>
+    <link type="text/css" th:href="@{/static/front_css/-f=-usertpl-cl_st15578_m189_footer-css-footer.css}" rel="stylesheet"/>
+    <script type="text/javascript"
+            th:src="@{/static/front_js/-f=-res-js-jquery.min.js,-res-js-base.js,-res-js-common.js,-res-js-jquery.validate.js,-res-js-jquery.md5.js}"></script>
+</head>
+<body>
+<link type="text/css" th:href="@{/static/front_css/-f=-usertpl-cl_st15578_m189_header-css-header.css}" rel="stylesheet"/>
+<!--<script type="text/javascript" th:src="@{/static/front_js/-f=-res-js-SuperSlide.min.js}"></script>-->
+<!-- 顶部介绍开始 -->
+<div class="header-content">
+    <div class="wm-1200">
+        <div class="public-txt"><p><span
+                style="font-family: 宋体, SimSun; font-size: 12px; color: rgb(192, 0, 0);"><strong>河南中州国际旅行</strong><strong>​</strong><strong>社有限公司，为您提供最专业的旅游服务，因为专注，所以专业。热线电话 18603838974</strong></span>
+        </p></div>
+        <div class="dh fr"><span id="loginstatus"> </span> <a class="fl" rel="nofollow"
+                                                              href="javascript:if(confirm(%27http://www.zzaly.com/search/order  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/order%27"
+                                                              target="_blank">订单查询</a> <a class="fl" rel="nofollow"
+                                                                                          href="javascript:if(confirm(%27http://www.zzaly.com/servers/index_1.html  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/servers/index_1.html%27"
+                                                                                          target="_blank">联系我们</a>
+            <div class="top_web_map bor_bag fl">
+                <dl class="dh"><a class="web_nav_ico" href="javascript:;"><s></s>网站导航</a>
+                    <div class="w_nav_map"><a href="index.htm" tppabs="http://www.zzaly.com/lines/"
+                                              target="_blank">线路</a> <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/tuan/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/tuan/%27"
+                            tppabs="http://www.zzaly.com/tuan/" target="_blank">团购</a> <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/customize/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/customize/%27"
+                            tppabs="http://www.zzaly.com/customize/" target="_blank">私人定制</a> <a
+                            href="nazhoubianyou1.htm" tppabs="http://www.zzaly.com/lines/nazhoubianyou1"
+                            target="_blank">河南地接</a> <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/visa/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/visa/%27"
+                            tppabs="http://www.zzaly.com/visa/" target="_blank">签证</a> <a href="" target="_blank">毕业季，一起去撒欢</a>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 顶部介绍结束 --> <!-- logo and search开始 -->
+<div class="big">
+    <div class="wm-1200">
+        <div class="top_mt">
+            <div class="logo"><a
+                    href="javascript:if(confirm(%27http://www.zzaly.com/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/%27"
+                    tppabs="http://www.zzaly.com/"><img src="../../../static/front_img/6f904fff78610d2318afc112e673db28_298x85.png"
+                                                        alt="中州爱旅游--河南中州国际旅行社"/></a></div>
+            <div class="all_search">
+                <div class="top_search"><input type="text" id="st-top-search" class="s_txt g_search searchkeyword"
+                                               placeholder="输入目的地、酒店、攻略"/> <input
+                        class="s_btn cloud_search st-btn" type="button" name="" value=""/>
+                    <div class="searcg_hot"><span>热门搜索：</span> <a
+                            href="javascript:void(0)" target="_blank">云南</a>
+                        <a href="javascript:void(0)" target="_blank">西安</a>
+                        <a href="javascript:void(0)"
+                           target="_blank">普吉岛</a></div>
+                </div>
+                <div class="h_phone_num"><span>24小时客服电话：</span>
+                    <p>18603838974</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- logo and search结束 --> <!-- 导航开始 -->
+<div class="nav">
+    <div class="menu">
+        <div class="global_nav">
+            <div class="global_tit">旅游导航</div>
+            <div class="global_box">
+                <div class="global_list">
+                    <div class="tit_bt"><h3><a href=" " target="_blank">当季热卖<i></i></a></h3> <span>   <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0%27"
+                            tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0"
+                            target="_blank"><span style='color:#FF6600'>呼伦贝尔</span></a>  <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0%27"
+                            tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0"
+                            target="_blank"><span style='color:#FF6600'>鼓浪屿</span></a></span></div>
+                    <div class="itme">
+                        <dl>
+                            <dt>
+                                <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0%27"
+                                   tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0"
+                                   target="_blank"><span style='color:#FF6600'>呼伦贝尔</span></a></dt>
+                            <dd></dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0%27"
+                                   tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0"
+                                   target="_blank"><span style='color:#FF6600'>鼓浪屿</span></a></dt>
+                            <dd></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_nav_list">
+            <ul>
+                <li>
+                    <a href="users/tologin">首页</a></li>
+                <li><a href="users/tologin"> 线路 <i class="st-hot-ico"></i><s></s> <i
+                        class="st-arrow-ico"></i> </a></li>
+                <li>
+                    <a href="javascript:if(confirm(%27http://www.zzaly.com/tuan/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/tuan/%27"
+                       tppabs="http://www.zzaly.com/tuan/"> 团购 <i class="st-jian-ico"></i><s></s> </a></li>
+                <li>
+                    <a href="javascript:if(confirm(%27http://www.zzaly.com/customize/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/customize/%27"
+                       tppabs="http://www.zzaly.com/customize/"> 私人定制 </a></li>
+                <li><a href="nazhoubianyou1.htm" tppabs="http://www.zzaly.com/lines/nazhoubianyou1"> 河南地接 <i
+                        class="st-jing-ico"></i><s></s> <i class="st-arrow-ico"></i> </a></li>
+                <li>
+                    <a href="javascript:if(confirm(%27http://www.zzaly.com/visa/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/visa/%27"
+                       tppabs="http://www.zzaly.com/visa/"> 签证 <i class="st-hot-ico"></i><s></s> <i
+                            class="st-arrow-ico"></i> </a></li>
+                <li><a href=""> 毕业季，一起去撒欢 <i class="st-hot-ico"></i><s></s> </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- 导航结束 -->
+<div class="st-userlogin-box"
+     style="background: url('../../../static/front_img/login.jpg')/*tpa=http://www.zzaly.com/uploads/background_img/login.jpg*/ center top no-repeat;">
+    <div class="st-login-wp">
+        <div class="st-admin-box">
+            <form id="loginfrm" method="post" body_div="sCUnMC">
+                <div class="login-account-key">
+                    <ul>
+                        <li class="number"><span class="tb"></span> <input type="text" class="np-box" name="loginname"
+                                                                           id="loginname" placeholder="请输入手机号或邮箱"/></li>
+                        <li class="password"><span class="tb"></span> <input type="password" class="np-box"
+                                                                             name="loginpwd" id="loginpwd"
+                                                                             placeholder="请输入登录密码"/></li>
+                        <li class="forget"><span class="login_err"></span> <a href="findpwd.html"
+                                                                              tppabs="http://www.zzaly.com/member/findpwd">忘记密码？</a>
+                        </li>
+                        <li class="dl-btn"><a href="javascript:;" class="btn_login">登 录</a></li>
+                        <li class="now-zc">您还没有账号？<a href="register.html" tppabs="http://www.zzaly.com/member/register">立刻注册</a>
+                        </li>
+                    </ul>
+                    <input type="hidden" name="logincode" id="frmcode" value="efb756bfdc004f499bb73a39e8baa899"/> <input
+                        type="hidden" name="fromurl" id="fromurl" value="http://www.zzaly.com/member/"/></div>
+            </form>
+            <div class="other-login">
+                <dl>
+                    <dt><span>使用其他方式登录</span><em></em></dt>
+                    <dd><a class="qq qqlogin"
+                           href="javascript:void(0)">QQ</a>
+                        <a class="wb wblogin"
+                           href="javascript:void(0)">wb</a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="st-brand">
+    <div class="wm-1200">
+        <div class="st-serve">
+            <dl class="ico01 bor_0">
+                <dt></dt>
+                <dd><em>阳光价格</em> <span>同类产品，保证低价</span></dd>
+            </dl>
+            <dl class="ico02">
+                <dt></dt>
+                <dd><em>阳光行程</em> <span>品质护航，透明公开</span></dd>
+            </dl>
+            <dl class="ico03">
+                <dt></dt>
+                <dd><em>阳光服务</em> <span>专属客服，快速响应</span></dd>
+            </dl>
+            <dl class="ico04">
+                <dt></dt>
+                <dd><em>救援保障</em> <span>途中意外，保证援助</span></dd>
+            </dl>
+        </div>
+    </div>
+</div> <!--品牌介绍-->
+<script>
+    $(function () {
+        //主导航下拉
+        $('.global_list').hover(function () {
+            $(this).children('.itme').show()
+        }, function () {
+            $(this).children('.itme').hide()
+        });
+        //导航指向
+        $(".top_web_map").hover(function () {
+            $(".w_nav_map").show();
+        }, function () {
+            $(".w_nav_map").hide();
+        });
+        hoverCssChange();
+        //自定义导航弹出
+        $(".global_nav").hover(function () {
+            $(".global_box").show()
+        }, function () {
+            $(".global_box").hide()
+        });
+        //首页焦点图
+        $('.slidePicBox').slide({
+            mainCell: ".bd ul",
+            titCell: ".hd li",
+            effect: "fold",
+            interTime: 5000,
+            delayTime: 1000,
+            autoPlay: true
+        });
+    });
+
+    function hoverCssChange() {
+        //指向样式
+        $(".bor_bag").mouseover(function () {
+            $(this).css({
+                "background": "#fff",
+                "border-left": "1px solid #e6e5e5",
+                "border-right": "1px solid #e6e5e5"
+            });
+            $(this).children(".web_nav_ico").css("background", "#fff")
+        });
+        $(".bor_bag").mouseout(function () {
+            $(this).css({
+                "background": "none",
+                "border-left": "1px solid #f1f1f1",
+                "border-right": "1px solid #f1f1f1"
+            });
+            $(this).children(".web_nav_ico").css("background", "#f1f1f1");
+        })
+    }
+</script>
+<script type="text/javascript" th:src="@{/static/front_js/-f=-res-js-layer-layer.js}"></script>
+<script>
+    $(function () {
+        document.onkeydown = function (e) {
+            var ev = document.all ? window.event : e;
+            if (ev.keyCode == 13) {
+                $(".btn_login").trigger('click');
+            }
+        }
+
+        //登陆
+        $(".btn_login").click(function () {
+            $("#loginfrm").submit();
+        })
+        $("#loginfrm").validate({
+            rules: {
+                loginname: {
+                    required: true
+                },
+                loginpwd: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                loginname: {
+                    required: '用户名不能为空'
+                },
+                loginpwd: {
+                    required: '用户密码不能为空',
+                    minlength: '密码长度至少6位'
+                }
+            },
+            errorPlacement: function (error, element) {
+                var content = $('#loginfrm').find('.login_err:eq(0)').html();
+                if (content == '') {
+                    $('#loginfrm').find('.login_err').html(error);
+                }
+            },
+            showErrors: function (errorMap, errorList) {
+                if (errorList.length &lt; 1) {
+                    $('#loginfrm').find('.login_err:eq(0)').html('');
+                } else {
+                    this.defaultShowErrors();
+                }
+            },
+            submitHandler: function (form) {
+                var url = SITEURL + 'member/login/ajax_login';
+                var loginname = $("#loginname").val();
+                var loginpwd = $.md5($("#loginpwd").val());
+                var frmcode = $("#frmcode").val();
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    url: url,
+                    data: {loginname: loginname, loginpwd: loginpwd, frmcode: frmcode},
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status == '1') {//登陆成功,跳转到来源网址
+                            var url = $("#fromurl").val();
+                            setTimeout(function () {
+                                window.open(url, '_self');
+                            }, 500);
+                            $('body').append(data.js);//同步登陆js
+                        } else {
+                            if (data.msg != undefined) {
+                                $(".login_err").html(data.msg);
+                            } else {
+                                $(".login_err").html('用户名或者密码错误');
+                            }
+                        }
+                    },
+                    error: function (a, b, c) {
+                    }
+                });
+                return false;
+            }
+        })
+    })
+</script>
+</body>
+</html>

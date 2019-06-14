@@ -1,0 +1,855 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>焦作青龙峡一日游-中州爱旅游</title>
+    <meta name="keywords" content="焦作、青龙峡"/>
+    <meta name="description" content="青龙峡位于河南省焦作市，距晋城市区40公里，距焦作市区33公里，面积约108平方公里，有“云台山第一大峡谷”的美誉。是河南云台山世界地质公园主要游览区之一。"/>
+    <link type="text/css" th:href="@{/static/front_css/-f=plugins-line-public-css-lines.css}" rel="stylesheet"/>
+    <link type="text/css" th:href="@{/static/front_css/-f=-res-css-base.css,-res-css-extend.css,-res-css-calendar.css}"
+          rel="stylesheet"/>
+    <link type="text/css" th:href="@{/static/front_css/-f=-usertpl-cl_st15578_m189_header-css-header.css}"
+          rel="stylesheet"/>
+    <link type="text/css" th:href="@{/static/front_css/-f=-usertpl-cl_st15578_m189_footer-css-footer.css}" rel="stylesheet"/>
+    <link type="text/css" th:href="@{/static/front_css/-f=-res-css-jquery.fancybox.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/static/front_js/-f=-res-js-jquery.fancybox.js}" ></script>
+    <script type="text/javascript" th:src="@{/static/front_js/-f=-res-js-SuperSlide.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/front_js/-f=-res-js-layer-layer.js}" ></script>
+    <script type="text/javascript" th:src="@{/static/front_js/-f=-res-js-jquery.validate.js,-res-js-jquery.md5.js}" ></script>
+    <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6478904"></script>
+    <script type="text/javascript"
+            th:src="@{/static/front_js/-f=-res-js-jquery.min.js,-res-js-base.js,-res-js-common.js,-res-js-delayLoading.min.js}"></script>
+    <script type="text/javascript">
+
+        var SITEURL = "/";
+
+        $(function () {
+            //主导航下拉
+            $('.global_list').hover(function () {
+                $(this).children('.itme').show()
+            }, function () {
+                $(this).children('.itme').hide()
+            });
+            //导航指向
+            $(".top_web_map").hover(function () {
+                $(".w_nav_map").show();
+            }, function () {
+                $(".w_nav_map").hide();
+            });
+            //hoverCssChange();
+            //自定义导航弹出
+            $(".global_nav").hover(function () {
+                $(".global_box").show()
+            }, function () {
+                $(".global_box").hide()
+            });
+            //首页焦点图
+            $('.slidePicBox').slide({
+                mainCell: ".bd ul",
+                titCell: ".hd li",
+                effect: "fold",
+                interTime: 5000,
+                delayTime: 1000,
+                autoPlay: true
+            });
+        });
+
+
+        function hoverCssChange() {
+            //指向样式
+            $(".bor_bag").mouseover(function () {
+                $(this).css({
+                    "background": "#fff",
+                    "border-left": "1px solid #e6e5e5",
+                    "border-right": "1px solid #e6e5e5"
+                });
+                $(this).children(".web_nav_ico").css("background", "#fff")
+            });
+            $(".bor_bag").mouseout(function () {
+                $(this).css({
+                    "background": "none",
+                    "border-left": "1px solid #f1f1f1",
+                    "border-right": "1px solid #f1f1f1"
+                });
+                $(this).children(".web_nav_ico").css("background", "#f1f1f1");
+            })
+        }
+    </script>
+
+    <!--<script>
+        //提交问答
+        $(".tj-btn").click(function () {
+            var question = $("#question").val();
+            var checkcode = $("#checkcode").val();
+            var productid = $(this).attr('data-productid');
+            var typeid = $(this).attr('data-typeid');
+            var nickname = $("#nickname").val();
+            var mobile = $("#mobile").val();
+            if (question.length &lt; 5) {
+                layer.alert('请输入你的问题,至少5个汉字', {
+                    icon: 5,
+                    title: '提示'
+                })
+                return false;
+            }
+            var mobileReg = /^(\+?0?86\-?)?1[345789]\d{9}$/;
+            if (mobile == '' || !mobileReg.test(mobile)) {
+                var msg = mobile.length &lt; 1 ? '手机号码不能为空' : '请填写正确的手机号码';
+                layer.alert(msg, {
+                    icon: 5,
+                    title: '提示'
+                });
+                return false;
+            }
+            if (checkcode == '') {
+                layer.alert('请输入验证码', {
+                    icon: 5,
+                    title: '提示'
+                });
+                return false;
+            }
+            $.ajax({
+                type: 'POST',
+                url: SITEURL + 'pub/ajax_add_question',
+                data: {
+                    productid: productid,
+                    content: question,
+                    checkcode: checkcode,
+                    nickname: nickname,
+                    typeid: typeid,
+                    questype: 0,
+                    mobile: mobile
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        layer.alert('验证码错误', {
+                            icon: 5,
+                            title: '提示'
+                        });
+                        //重新加载验证码
+                        $("#imgcheckcode").attr('src', "/captcha?" + Math.random());
+                    } else if (data == 3) {
+                        layer.msg('提问成功,请耐心等待管理员回复', {
+                            icon: 6,
+                            time: 1500
+                        });
+                        location.reload();
+                    } else {
+                        layer.alert('提问失败,请联系网站管理员!', {
+                            icon: 5,
+                            title: '提示'
+                        });
+                        //重新加载验证码
+                        $("#imgcheckcode").attr('src', "/captcha?" + Math.random());
+                    }
+                }
+            })
+        })
+        //登陆状态
+        $.ajax({
+            type: "POST",
+            url: SITEURL + "member/login/ajax_is_login",
+            dataType: 'json',
+            success: function (data) {
+                var mobile;
+                if (data.status) {
+                    mobile = '<input type="text" class="w100" value="' + data.user.mobile + '" name="mobile" id="mobile" />';
+                    $txt = '<span>' + data.user.nickname + '</span><input type="hidden" value="' + data.user.nickname + '" name="nickname" id="nickname" />';
+                } else {
+                    mobile = '<input type="text" class="w100" value="" name="mobile" id="mobile" />';
+                    $txt = '<input type="text" name="nickname" id="nickname" /><a href="http://www.zzaly.com/member/login/">登录</a>';
+                }
+                $("#_c_u").html($txt);
+                $("#_c_m").html(mobile);
+            }
+        })
+    </script>
+
+    <script type="text/html" id="tpl_user_comment">
+        {{each list as value i}}
+        <dl>
+            <dt><img src="{{value.litpic}}"/> <span>{{value.nickname}}</span> <em class="level">{{value.level}}</em>
+            </dt>
+            <dd>
+                <div class="zs"><span class="grade"><i style="width: {{value.percent}}"></i></span>
+                    <span class="jf">{{value.jifencomment}}分<i></i></span></div>
+                <div class="txt">{{value.content}}</div>
+                {{if value.piclist}}
+                <div class="plImgBox clearfix">
+                    {{include 'tpl_user_comment_pic' value}}
+                </div>
+                {{/if}}
+                <div class="date">{{value.addtime}}</div>
+            </dd>
+        </dl>
+        {{/each}}
+    </script>
+    <script type="text/html" id="tpl_user_comment_pic">
+        {{each piclist as pic i}}
+        <a class="fancybox" href="{{pic}}" data-fancybox-group="gallery"> <img src="{{picthumb[i]}}"
+                                                                               width="86px"
+                                                                               height="86px"/> </a>
+        {{/each}}
+    </script>
+
+    <script>
+        var isLoginOrder = "1";
+        var isLogin = false;
+
+        //登陆下订单
+        function is_login_order() {
+            var bool = true;
+            var text = $('#loginstatus').text();
+            var reg = /免费注册/g;
+            isLogin = !reg.test(text);
+            if (isLoginOrder == 1 &amp;&amp; !isLogin) {
+                $('#is_login_order').removeClass('hide');
+                bool = false;
+            }
+            return bool;
+        }
+    </script>-->
+
+</head>
+<body>
+<div class="header-content">
+    <div class="wm-1200">
+        <div class="public-txt"><p><span
+                style="font-family: 宋体, SimSun; font-size: 12px; color: rgb(192, 0, 0);"><strong>河南中州国际旅行</strong><strong>​</strong><strong>社有限公司，为您提供最专业的旅游服务，因为专注，所以专业。热线电话 18603838974</strong></span>
+        </p></div>
+        <div class="dh fr"><span id="loginstatus"> </span> <a class="fl" rel="nofollow"
+                                                              href="javascript:if(confirm(%27http://www.zzaly.com/search/order  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/order%27"  target="_blank">订单查询</a> <a class="fl" rel="nofollow"
+                                                                                                                                                                                                                                                                                                                                                                                                                           href="javascript:if(confirm(%27http://www.zzaly.com/servers/index_1.html  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/servers/index_1.html%27" target="_blank">联系我们</a>
+            <div class="top_web_map bor_bag fl">
+                <dl class="dh"><a class="web_nav_ico" href="javascript:;"><s></s>网站导航</a>
+                    <div class="w_nav_map"><a href="index.htm" tppabs="http://www.zzaly.com/lines/"
+                                              target="_blank">线路</a> <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/tuan/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/tuan/%27"
+                            tppabs="http://www.zzaly.com/tuan/" target="_blank">团购</a> <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/customize/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/customize/%27"
+                            tppabs="http://www.zzaly.com/customize/" target="_blank">私人定制</a> <a
+                            href="nazhoubianyou1.htm" tppabs="http://www.zzaly.com/lines/nazhoubianyou1"
+                            target="_blank">河南地接</a> <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/visa/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/visa/%27"
+                            tppabs="http://www.zzaly.com/visa/" target="_blank">签证</a> <a href="" target="_blank">毕业季，一起去撒欢</a>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 顶部介绍结束 --> <!-- logo and search开始 -->
+<div class="big">
+    <div class="wm-1200">
+        <div class="top_mt">
+            <div class="logo"><a
+                    href="javascript:if(confirm(%27http://www.zzaly.com/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/%27"
+                    tppabs="http://www.zzaly.com/"><img src="../../../static/front_img/6f904fff78610d2318afc112e673db28_298x85.png" alt="中州爱旅游--河南中州国际旅行社"/></a></div>
+            <div class="all_search">
+                <div class="top_search"><input type="text" id="st-top-search" class="s_txt g_search searchkeyword"
+                                               placeholder="输入目的地、酒店、攻略"/> <input
+                        class="s_btn cloud_search st-btn" type="button" name="" value=""/>
+                    <div class="searcg_hot"><span>热门搜索：</span> <a
+                            href="javascript:void(0)" target="_blank">云南</a>
+                        <a href="javascript:void(0)" target="_blank">西安</a>
+                        <a href="javascript:void(0)"
+                           target="_blank">普吉岛</a></div>
+                </div>
+                <div class="h_phone_num"><span>24小时客服电话：</span>
+                    <p>18603838974</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- logo and search结束 --> <!-- 导航开始 -->
+<div class="nav">
+    <div class="menu">
+        <div class="global_nav">
+            <div class="global_tit">旅游导航</div>
+            <div class="global_box">
+                <div class="global_list">
+                    <div class="tit_bt"><h3><a href=" " target="_blank">当季热卖<i></i></a></h3> <span>   <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0%27"
+                            tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0"
+                            target="_blank"><span style='color:#FF6600'>呼伦贝尔</span></a>  <a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0%27"
+                            tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0"
+                            target="_blank"><span style='color:#FF6600'>鼓浪屿</span></a></span></div>
+                    <div class="itme">
+                        <dl>
+                            <dt>
+                                <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0%27"
+                                   tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0"
+                                   target="_blank"><span style='color:#FF6600'>呼伦贝尔</span></a></dt>
+                            <dd></dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0%27"
+                                   tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0"
+                                   target="_blank"><span style='color:#FF6600'>鼓浪屿</span></a></dt>
+                            <dd></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_nav_list">
+            <ul>
+                <li>
+                    <a href="users/tologin">首页</a></li>
+                <li><a href="users/tologin"> 线路 <i class="st-hot-ico"></i><s></s> <i
+                        class="st-arrow-ico"></i> </a></li>
+                <li>
+                    <a href="javascript:if(confirm(%27http://www.zzaly.com/tuan/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/tuan/%27"
+                       tppabs="http://www.zzaly.com/tuan/"> 团购 <i class="st-jian-ico"></i><s></s> </a></li>
+                <li>
+                    <a href="javascript:if(confirm(%27http://www.zzaly.com/customize/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/customize/%27"
+                       tppabs="http://www.zzaly.com/customize/"> 私人定制 </a></li>
+                <li><a href="nazhoubianyou1.htm" tppabs="http://www.zzaly.com/lines/nazhoubianyou1"> 河南地接 <i
+                        class="st-jing-ico"></i><s></s> <i class="st-arrow-ico"></i> </a></li>
+                <li>
+                    <a href="javascript:if(confirm(%27http://www.zzaly.com/visa/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/visa/%27"
+                       tppabs="http://www.zzaly.com/visa/"> 签证 <i class="st-hot-ico"></i><s></s> <i
+                            class="st-arrow-ico"></i> </a></li>
+                <li><a href=""> 毕业季，一起去撒欢 <i class="st-hot-ico"></i><s></s> </a></li>
+            </ul>
+        </div>
+    </div>
+</div><!-- 导航结束 -->
+<div class="big">
+    <div class="wm-1200">
+        <div class="st-guide"><a
+                href="javascript:if(confirm(%27http://www.zzaly.com/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/%27"
+                tppabs="http://www.zzaly.com/" title="首页">首页</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="index.htm"
+                                                                                               tppabs="http://www.zzaly.com/lines/"
+                                                                                               title="线路">线路</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a
+                href="index-9.htm" tppabs="http://www.zzaly.com/lines/nazhoubianyou1/" title="省内游线路">省内游线路</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;焦作青龙峡一日游
+        </div>
+        <div class="st-main-page">
+            <div class="st-line-show">
+                <div class="lineshow-tw">
+                    <div class="lw-title"><a
+                            href="javascript:if(confirm(%27http://www.zzaly.com/line/print/id/64  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/line/print/id/64%27"
+                            tppabs="http://www.zzaly.com/line/print/id/64" class="print-btn">打印行程</a>
+                        <h1>焦作青龙峡一日游 <img src="../../../static/front_img/hot.png" tppabs="http://www.zzaly.com/uploads/icon/hot.png"/></h1>
+                        <div class="sp-tip"><span class="num">线路编号：1164</span> 青龙峡</div>
+                    </div>
+                    <div class="focus-slide">
+                        <div class="imgnav" id="imgnav">
+                            <div id="img"><img src="../../../static/front_img/5784c78a056270f6194d03eef59aed45_460x312.png"
+                                               tppabs="http://www.zzaly.com/uploads/2017/0718/5784c78a056270f6194d03eef59aed45_460x312.png"/>
+                                <img src="../../../static/front_img/cb426a047d66a22a08babb088840702a_460x312.png"
+                                     tppabs="http://www.zzaly.com/uploads/2017/0718/cb426a047d66a22a08babb088840702a_460x312.png"/>
+                                <img src="../../../static/front_img/6b9debb953d219165ea7b5f4662dab9a_460x312.png"
+                                     tppabs="http://www.zzaly.com/uploads/2017/0718/6b9debb953d219165ea7b5f4662dab9a_460x312.png"/>
+                                <img src="../../../static/front_img/dee28d70fd808ef0d4fef3e2369b103a_460x312.png"
+                                     tppabs="http://www.zzaly.com/uploads/2017/0718/dee28d70fd808ef0d4fef3e2369b103a_460x312.png"/>
+                                <div id="front" title="上一张"><a href="javaScript:void(0)" class="pngFix"></a></div>
+                                <div id="next" title="下一张"><a href="javaScript:void(0)" class="pngFix"></a></div>
+                            </div>
+                            <div id="cbtn"><i class="picSildeLeft"><img src="../../../static/front_img/picSlideLeft.gif"
+                                                                        tppabs="http://www.zzaly.com/res/images/picSlideLeft.gif"/></i>
+                                <i class="picSildeRight"><img src="../../../static/front_img/picSlideRight.gif"
+                                                              tppabs="http://www.zzaly.com/res/images/picSlideRight.gif"/></i>
+                                <div id="cSlideUl">
+                                    <ul>
+                                        <li><img src="../../../static/front_img/5784c78a056270f6194d03eef59aed45_90x61.png"
+                                                 tppabs="http://www.zzaly.com/uploads/2017/0718/5784c78a056270f6194d03eef59aed45_90x61.png"/>
+                                        </li>
+                                        <li><img src="../../../static/front_img/cb426a047d66a22a08babb088840702a_90x61.png"
+                                                 tppabs="http://www.zzaly.com/uploads/2017/0718/cb426a047d66a22a08babb088840702a_90x61.png"/>
+                                        </li>
+                                        <li><img src="../../../static/front_img/6b9debb953d219165ea7b5f4662dab9a_90x61.png"
+                                                 tppabs="http://www.zzaly.com/uploads/2017/0718/6b9debb953d219165ea7b5f4662dab9a_90x61.png"/>
+                                        </li>
+                                        <li><img src="../../../static/front_img/dee28d70fd808ef0d4fef3e2369b103a_90x61.png"
+                                                 tppabs="http://www.zzaly.com/uploads/2017/0718/dee28d70fd808ef0d4fef3e2369b103a_90x61.png"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare"><span class="bds_more">分享</span>
+                        </div>
+                    </div>
+                    <div class="cp-show-msg">
+                        <div class="jg" id="min_price_tips"><span class="hide">优惠价：<i class="currency_sy">￥</i><b
+                                id="minprice">90</b>起</span> <span class="hide">优惠价：<b>电询</b></span></div>
+                        <div class="sl"><span>销量：16</span><s>|</s><span class="myd">满意度：100%</span></div>
+                        <dl class="tc">
+                            <dt>套餐类型：</dt>
+                            <dd class="type suitlist"><a href="javascript:;" data-suitid="502" title="青龙峡"
+                                                         data-minprice="90" data-jifentprice="0"
+                                                         data-jifenbook="0">青龙峡</a></dd>
+                            <dd class="select-bj"><span>出发日期：</span> <select class="bj-list date-list"> </select></dd>
+                            <dd class="yd-btn"><a href="javascript:;" class="btn-yd gobook">立即预订</a></dd>
+                        </dl>
+                        <ul class="msg-ul">
+                            <li><em class="item-hd">出发城市：</em>
+                                <div class="item-bd">郑州</div>
+                            </li>
+                            <li><em class="item-hd">往返交通：</em>
+                                <div class="item-bd">汽车</div>
+                            </li>
+                            <li><em class="item-hd">提前报名：</em>
+                                <div class="item-bd">2天以上</div>
+                            </li>
+                            <li class="mb_0"><em class="item-hd">付款方式：</em>
+                                <div class="item-bd"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lineshow-con">
+                    <div class="tabnav-list"><span class="on">在线预订</span> <span>线路特色</span> <span>行程附件</span>
+                        <span>行程安排</span> <span>费用包含</span> <span>签约付款</span> <span>备注</span> <span>客户评价</span> <span>我要咨询</span>
+                        <a class="yd-btn yd-btn-menu gobook btn-yd" style="display: none" href="javascript:;">立即预订</a>
+                    </div><!--线路导航-->
+                    <div class="tabbox-list">
+                        <div class="tabcon-list" id="calendar"></div>
+                        <div class="tabcon-list">
+                            <div class="list-tit"><strong>线路特色</strong></div>
+                            <div class="list-txt"><p><span style="font-family: 宋体, SimSun; font-size: 18px;"><strong>景点简介：</strong>青龙峡风景名胜区位于河南焦作市北部25公里处的深山区，属于云台山山系，号称小云台！总面积约108平方公里，这里气候独特、山清水秀、环境优美，是大自然赐予人类的一处天然“氧吧”，是原始生态旅游的最佳去处。青龙峡风景名胜区集峰、崖、岭、巅、台、沟、涧、川、瀑、洞等地貌于一体，大自然的鬼斧神功在这里得以充分展现。</span>
+                            </p>
+                                <p>​<br/></p></div>
+                        </div>
+                        <a name="download"></a>
+                        <div class="tabcon-list">
+                            <div class="list-tit"><strong>行程附件</strong></div>
+                            <div class="list-txt">
+                                <ol class="attachment" id="attachment">
+                                    <li>
+                                        <a href="javacript:void(0)"
+                                           title="中州青龙峡一日游.doc 下载" class="name">中州青龙峡一日游.doc</a></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="tabcon-list">
+                            <div class="list-tit"><strong>行程安排</strong></div>
+                            <div class="eachday">
+                                <div class="day-con part" id="day_c_1">
+                                    <div class="day-num"><i class="sz">1</i></div>
+                                    <div class="day-tit"><strong>第一天</strong>
+                                        <p>郑州--青龙峡--郑州</p></div>
+                                    <table class="day-tb" width="100%" border="0" bgcolor="#f9f8f8">
+                                        <tr>
+                                            <th width="110" scope="row"><span class="yc">用餐情况：</span></th>
+                                            <td width="237"> 早餐：不含
+                                            </td>
+                                            <td width="237"> 午餐：不含
+                                            </td>
+                                            <td width="237"> 晚餐:不含
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th width="110" scope="row"><span class="zs">住宿情况：</span></th>
+                                            <td colspan="3"></td>
+                                        </tr>
+                                        <tr class="bor_0">
+                                            <th width="110" scope="row"><span class="gj">交通工具：</span></th>
+                                            <td colspan="3"> 汽车</td>
+                                        </tr>
+                                    </table>
+                                    <div class="txt"><p
+                                            style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                        <span style="margin: 0px; padding: 0px; max-width: 100%; color: rgb(0, 82, 255); font-family: 宋体, SimSun; font-size: 16px; box-sizing: border-box !important; word-wrap: break-word !important;">行程安排:</span>
+                                    </p>
+                                        <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                            <span style="font-family: 宋体, SimSun; font-size: 16px;"><span
+                                                    style="font-family: 宋体, SimSun; margin: 0px; padding: 0px; max-width: 100%; font-size: 18px; box-sizing: border-box !important; word-wrap: break-word !important;">     6:20在青少年宫或6:40在紫荆山人民会堂门口集合，乘旅游大巴前往“中原第一峡谷”之称的青龙峡</span><span
+                                                    style="font-family: 宋体, SimSun; margin: 0px; padding: 0px; max-width: 100%; color: rgb(255, 0, 0); font-size: 18px; box-sizing: border-box !important; word-wrap: break-word !important;">（车程约3个小时）</span><span
+                                                    style="font-family: 宋体, SimSun; margin: 0px; padding: 0px; max-width: 100%; font-size: 18px; box-sizing: border-box !important; word-wrap: break-word !important;">，                                 </span></span>
+                                        </p>
+                                        <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                            <span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体, SimSun; font-size: 16px; box-sizing: border-box !important; word-wrap: break-word !important;">     10：:00抵达景区后开始游览望亲亭、观景台、青龙大峡谷、叠翠瀑等风景区；       <br
+                                                    style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"/>     12:00安排大家自由用餐<br
+                                                    style="margin: 0px; padding: 0px; max-width: 100%; box-sizing: border-box !important; word-wrap: break-word !important;"/>     13:00午餐后游览石上春秋、白龙瀑布、青龙王庙、青龙洞等知名景点，走台阶或乘坐缆车出峡谷，观千年榔榆林、陪嫁妆村等。<span
+                                                    style="font-size: 18px; font-family: 宋体, SimSun; margin: 0px; padding: 0px; max-width: 100%; color: rgb(255, 0, 0);">（约3个小时）</span></span>
+                                        </p>
+                                        <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                            <span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体, SimSun; font-size: 16px; box-sizing: border-box !important; word-wrap: break-word !important;">     16:00左右乘车返回郑州温馨家园，愉快的青龙峡之旅结束。</span>
+                                        </p>
+                                        <p>​<br/></p></div>
+                                    <ul class="jd-lsit"></ul>
+                                </div>
+                                <div class="day-leftnav" id="day-leftNav">
+                                    <ul class="day-navlist">
+                                        <li><a href="#day_c_1" class="">DAY1</a></li>
+                                    </ul>
+                                </div>
+                                <div class="end"></div>
+                            </div>
+                        </div>
+                        <div class="tabcon-list">
+                            <div class="list-tit"><strong>费用包含</strong></div>
+                            <div class="list-txt"><p
+                                    style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                <span style="font-family: 宋体, SimSun;"><span
+                                        style="margin: 0px; padding: 0px; max-width: 100%; color: rgb(0, 82, 255); box-sizing: border-box !important; word-wrap: break-word !important;"><span
+                                        style="margin: 0px; padding: 0px; max-width: 100%; font-size: 24px;">服务标准</span><span
+                                        style="margin: 0px; padding: 0px; max-width: 100%; font-size: 18px;">&nbsp;:&nbsp;&nbsp;&nbsp;</span></span><span
+                                        style="margin: 0px; padding: 0px; max-width: 100%; font-size: 18px; box-sizing: border-box !important; word-wrap: break-word !important;">&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+                            </p>
+                                <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                    <span style="margin: 0px; padding: 0px; max-width: 100%; font-size: 18px; font-family: 宋体, SimSun; box-sizing: border-box !important; word-wrap: break-word !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;◆&nbsp;交通：全程豪华旅游大巴（空调、VCD、航空座椅）</span>
+                                </p>
+                                <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                    <span style="margin: 0px; padding: 0px; max-width: 100%; font-size: 18px; font-family: 宋体, SimSun; box-sizing: border-box !important; word-wrap: break-word !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ◆景点：景点第一大门票、小交通</span>
+                                </p>
+                                <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                    <span style="margin: 0px; padding: 0px; max-width: 100%; font-size: 18px; font-family: 宋体, SimSun; box-sizing: border-box !important; word-wrap: break-word !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ◆导游：全程优秀导游服务</span>
+                                </p>
+                                <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                    <span style="margin: 0px; padding: 0px; max-width: 100%; font-size: 18px; font-family: 宋体, SimSun; box-sizing: border-box !important; word-wrap: break-word !important;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;◆&nbsp;保险：价值80万元/人旅行社责任保险</span>
+                                </p></div>
+                        </div>
+                        <div class="tabcon-list">
+                            <div class="list-tit"><strong>签约付款</strong></div>
+                            <div class="list-txt"><p>&nbsp;<span style="color: rgb(255, 0, 0); font-size: 18px;">咨询电话：18603838974</span>
+                            </p>
+                                <p><span style="font-size: 16px;">&nbsp;<span
+                                        style="color: rgb(255, 0, 0); font-size: 18px;">在线预订：18603838974 &nbsp; &nbsp; 15518693217</span></span>
+                                </p>
+                                <p><span
+                                        style="color: rgb(255, 0, 0); font-size: 18px;">&nbsp;网上预订：通过客服，确定团期，进行预订。</span><br/>
+                                </p>
+                                <p>
+                                </p>
+                                <p>&nbsp;</p></div>
+                        </div>
+                        <div class="tabcon-list">
+                            <div class="list-tit"><strong>备注</strong></div>
+                            <div class="list-txt"><p
+                                    style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                <span style="margin: 0px; padding: 0px; max-width: 100%; color: rgb(0, 82, 255); font-family: 宋体, SimSun; font-size: 16px; box-sizing: border-box !important; word-wrap: break-word !important;">导游关怀:</span>
+                            </p>
+                                <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                    <span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体, SimSun; font-size: 16px; box-sizing: border-box !important; word-wrap: break-word !important;">1、请您在旅游期间注意自己的人身及财务安全；观景不走路，走路不观景</span>
+                                </p>
+                                <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                    <span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体, SimSun; font-size: 16px; box-sizing: border-box !important; word-wrap: break-word !important;">2、春天绿意浓浓，丝丝暖意沁人心脾，但是，景区里面昼夜温差稍大，请您带些备用衣服</span>
+                                </p>
+                                <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                    <span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体, SimSun; font-size: 16px; box-sizing: border-box !important; word-wrap: break-word !important;">3、我社保留在不减少景点的情况下，对行程游览顺序进行调整的权力</span>
+                                </p>
+                                <p style="margin-top: 0px; margin-bottom: 0px; padding: 0px; max-width: 100%; clear: both; min-height: 1em; color: rgb(62, 62, 62); font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft YaHei&#39;, Arial, sans-serif; line-height: 25.6px; white-space: normal; box-sizing: border-box !important; word-wrap: break-word !important; background-color: rgb(255, 255, 255);">
+                                    <span style="margin: 0px; padding: 0px; max-width: 100%; font-family: 宋体, SimSun; font-size: 16px; box-sizing: border-box !important; word-wrap: break-word !important;">4、景区内有些类似蜜蜂的小虫，请大家注意防虫叮咬</span>
+                                </p>
+                                <p><br/></p></div>
+                        </div>
+
+                        <div class="tabcon-list">
+                            <div class="list-tit"><strong>客户点评</strong></div>
+                            <div class="st-list-pl">
+                                <div class="st-pl-box" style="border-bottom: 1px solid #d8d8d8;"><span class="myd"
+                                                                                                       data-myd="100%">满意度<strong>100%</strong></span>
+                                    <span class="txt">回程归来发表点评即可获赠积分，<br/>获得的积分可在下次消费时抵用部分现金。</span> <a class="pl-btn"
+                                                                                                        href="javascript:if(confirm(%27http://www.zzaly.com/member  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/member%27"
+                                                                                                        tppabs="http://www.zzaly.com/member">我要评论 </a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tabcon-list">
+                            <div class="list-tit"><strong>我要咨询</strong></div>
+                            <div class="st-consult">
+                                <ul></ul>
+                                <div class="pagediv" style="text-align: center;display: none" data-quecount=""
+                                     id="page"></div>
+                                <div class="st-tj-question"><textarea name="question" id="question" cols=""
+                                                                      placeholder="请填写你的问题" rows=""></textarea>
+                                    <div class="msg"><a class="tj-btn" href="javascript:;" data-productid="64"
+                                                        data-typeid="1">提交</a> <span><em>验证码：</em><input type="text"
+                                                                                                         id="checkcode"
+                                                                                                         style="padding-left: 5px"/><img src="../../../static/front_img/captcha.png" onClick="this.src=this.src+'?math='+ Math.random()" width="80" height="30"/></span>
+                                        <span><em>昵称：</em> <span id="_c_u"
+                                                                 style="line-height: 30px;height: 30px"></span> </span>
+                                        <span><em>手机号码：</em> <span id="_c_m"
+                                                                   style="line-height: 30px;height: 30px"> </span> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--详情主体-->
+            <div class="st-sidebox"></div><!--边栏模块--> </div>
+    </div>
+</div>
+<div class="st-brand">
+    <div class="wm-1200">
+        <div class="st-serve">
+            <dl class="ico01 bor_0">
+                <dt></dt>
+                <dd><em>阳光价格</em> <span>同类产品，保证低价</span></dd>
+            </dl>
+            <dl class="ico02">
+                <dt></dt>
+                <dd><em>阳光行程</em> <span>品质护航，透明公开</span></dd>
+            </dl>
+            <dl class="ico03">
+                <dt></dt>
+                <dd><em>阳光服务</em> <span>专属客服，快速响应</span></dd>
+            </dl>
+            <dl class="ico04">
+                <dt></dt>
+                <dd><em>救援保障</em> <span>途中意外，保证援助</span></dd>
+            </dl>
+        </div>
+    </div>
+</div> <!--品牌介绍-->
+
+<!--<script type="text/javascript" th:src="@{/static/front_js/front-f=-res-js-floatmenu-floatmenu.js}" ></script>-->
+<script type="text/javascript"
+        th:src="@{/static/front_js/-f=-res-js-SuperSlide.min.js,-res-js-template.js,-res-js-date.js,-res-js-calendar.js,-res-js-scorll.img.js}" ></script>
+<link type="text/css" th:href="@{/static/front_css/-f=-res-js-floatmenu-floatmenu.css}" rel="stylesheet"/>
+<!--隐藏域--> <input type="hidden" id="suitid" value=""/> <input type="hidden" id="lineid" value="64"/>
+<!--<script type="text/javascript">
+    $(document).ready(function () {
+        var topHeight = $('.tabnav-list').offset().top;
+        $(window).scroll(function () {
+            if ($(document).scrollTop() &gt;= topHeight) {
+                $(".yd-btn-menu").show()
+            } else {
+                $(".yd-btn-menu").hide();
+            }
+        });
+        //线路内容切换
+        $.floatMenu({
+            menuContain: '.tabnav-list',
+            tabItem: 'span',
+            chooseClass: 'on',
+            contentContain: '.tabbox-list',
+            itemClass: '.tabcon-list'
+        });
+        //套餐选择
+        $('.suitlist').find('a').click(function () {
+            var minprice = $(this).attr('data-minprice');
+            if (parseInt(minprice) > 0) {
+                $('#min_price_tips').find('span:eq(0)').removeClass('hide').siblings('span').addClass('hide');
+                $('#minprice').text(minprice);
+            } else {
+                $('#min_price_tips').find('span:eq(1)').removeClass('hide').siblings('span').addClass('hide');
+            }
+            var suitid = $(this).attr('data-suitid');
+            // var jifentprice = $(this).attr('data-jifentprice');
+            //  var jifenbook = $(this).attr('data-jifenbook');
+            // if(jifentprice){
+            //   $('.jifentprice').html(jifentprice+'元<i></i>')
+            // }else{
+            //    $('.jifentprice').hide();
+            // }
+            // if(jifenbook){
+            //     $('.jifenbook').html(jifenbook+'分<i></i>')
+            //  }else{
+            //     $('.jifenbook').hide();
+            // }
+            $("#suitid").val(suitid);
+            $(this).addClass('on').siblings().removeClass('on');
+            var lineid = $("#lineid").val();
+            get_calendar(suitid, lineid);
+            get_date_list(suitid, lineid);
+        })
+        //选中第一个
+        $('.suitlist').find('a').first().trigger('click');
+        //预订页面
+        $('body').delegate('.gobook', 'click', function () {
+            var usedate = $('.date-list').val();
+            var suitid = $('#suitid').val();
+            var lineid = $('#lineid').val();
+            if (usedate == null) {
+                return false;
+            }
+            var url = "http://www.zzaly.com/lines/book/?usedate=" + usedate + '&amp;suitid=' + suitid + "&amp;lineid=" + lineid;
+            window.location.href = url;
+        })
+
+        //获取日历报价
+        function get_calendar(suitid, lineid) {
+            showCalendar('calendar', suitid, function () {
+                $(".calendar:first").css("margin-right", "15px")
+            }, lineid);
+        }
+
+        //获取日历下拉列表
+        function get_date_list(suitid, lineid) {
+            $.ajax({
+                type: 'POST',
+                url: SITEURL + 'line/ajax_date_options',
+                data: {suitid: suitid, lineid: lineid},
+                dataType: 'json',
+                success: function (data) {
+                    $('.date-list').empty();
+                    var html = '';
+                    if (data.list != '') {
+                        $.each(data.list, function (i, row) {
+                            var people = '';
+                            if (row.adultprice > 0) {
+                                people += '￥' + row.adultprice + '/成人 ';
+                            }
+                            if (row.childprice > 0) {
+                                people += '￥' + row.childprice + '/儿童 ';
+                            }
+                            if (row.oldprice > 0) {
+                                people += '￥' + row.oldprice + '/老人 ';
+                            }
+                            html += '<option value="' + row.useday + '">' + row.shortdate + '(' + row.weekday + ')' + people + '</option>';
+                            $(".btn-yd").text('立即预订');
+                            $(".btn-yd").css('background', '#ff8a00');
+                            $(".btn-yd").addClass('gobook');
+                        })
+                    } else {
+                        html += '<option value="0">请选择日期</option>';
+                        $(".btn-yd").text('不可预订');
+                        $(".btn-yd").css('background', '#ccc');
+                        $(".btn-yd").removeClass('gobook');
+                    }
+                    $('.date-list').append(html);
+                }
+            })
+        }
+    });
+
+    //预订产品
+    function setBeginTime(y, m, d, price, lineid, suitid) {
+        if (!is_login_order()) {
+            return false;
+        }
+        var udate = y + '-' + m + '-' + d;
+        var url = SITEURL + "lines/book/?usedate=" + udate + "&amp;lineid=" + lineid + "&amp;suitid=" + suitid;
+        window.location.href = url;
+    }
+</script>-->
+<div class="content-fix-box hide" id="is_login_order">
+    <div class="login-small-box">
+        <form id="loginfrm" method="post">
+            <div class="login-small-con"><h3>登陆<i class="close-btn"></i></h3>
+                <div class="user-name"><input type="text" name="loginname" id="loginname" class="user-zh" placeholder="请输入手机号/邮箱"/></div>
+                <div class="user-password"><input type="password" name="loginpwd" id="loginpwd" class="user-zh" placeholder="请输入登录密码"/></div>
+                <div class="user-num"><input type="text" name="logincode" id="frmcode" class="user-zh" placeholder="请输入验证码"/> <span class="yzm"><img id="login_order_yzm"
+                                                                                                                                                     src="../../../static/front_img/captcha.png"/></span>
+                    <span class="change-next" id="chang_yzm">换一张</span></div>
+                <div id="login_order_error"></div>
+                <div class="login-btn"><a class="login" id="login_order" href="javascript:">登 录</a></div>
+                <div class="reg-find-acc">没有账号，<a
+                        href="javascript:void(0)">免费注册</a> <a class="fr" href="javascript:void(0)">找回密码</a>
+                </div>
+            </div>
+            <div class="other-login">
+                <dl>
+                    <dt><span>使用其他方式登录</span><em></em></dt>
+                    <dd><a class="qq third-login" href="javascript:"
+                           data="http://www.zzaly.com/plugins/login_qq/index/index/?refer">QQ</a> <a
+                            class="wb third-login" href="javascript:"
+                            data="http://www.zzaly.com/plugins/login_weibo/index/index/?refer">wb</a></dd>
+                </dl>
+            </div>
+        </form>
+    </div>
+</div><!--
+<script>
+    $(document).ready(function () {
+        var node;
+        //关闭弹出框
+        $('.close-btn').click(function () {
+            $('#is_login_order').addClass('hide');
+        });
+        //切换验证码
+        $('#chang_yzm').click(function () {
+            refresh_code()
+        });
+        $('#login_order_yzm').click(function () {
+            refresh_code()
+        });
+
+        function refresh_code() {
+            $('#login_order_yzm').attr('src', SITEURL + 'captcha?' + Math.random());
+        }
+
+        //第三方登陆
+        $('.other-login dd a').click(function (e) {
+            e.preventDefault();
+            var href = $(this).attr('data') + '=' + encodeURIComponent(window.location.href);
+            window.location.href = href;
+        });
+        //登陆
+        $('#login_order').click(function () {
+            node = $(this);
+            $("#loginfrm").submit();
+        });
+        $("#loginfrm").validate({
+            rules: {
+                loginname: {
+                    required: true
+                },
+                loginpwd: {
+                    required: true,
+                    minlength: 6
+                },
+                logincode: {
+                    required: true
+                }
+            },
+            messages: {
+                loginname: {
+                    required: '用户名不能为空'
+                },
+                loginpwd: {
+                    required: '用户密码不能为空',
+                    minlength: '密码长度至少6位'
+                },
+                logincode: {
+                    required: '验证码不能为空'
+                }
+            },
+            errorPlacement: function (error, element) {
+                var content = $('#loginfrm').find('#login_order_error').html();
+                if (content == '') {
+                    $('#loginfrm').find('#login_order_error').addClass('login-error').html(error);
+                }
+            },
+            showErrors: function (errorMap, errorList) {
+                if (errorList.length &lt; 1) {
+                    $('#loginfrm').find('#login_order_error').removeClass('login-error').html('');
+                } else {
+                    this.defaultShowErrors();
+                }
+            },
+            submitHandler: function (form) {
+                var url = SITEURL + 'member/login/ajax_login';
+                var loginname = $("#loginname").val();
+                var loginpwd = $.md5($("#loginpwd").val());
+                var frmcode = $("#frmcode").val();
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    url: url,
+                    data: {loginname: loginname, loginpwd: loginpwd, frmcode: frmcode},
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status == '1') {//登陆成功,跳转到来源网址
+                            var type = node.attr('data');
+                            var url = $("#fromurl").val();
+                            $('body').append(data.js);//同步登陆js
+                            window.location.reload();
+                        } else {
+                            refresh_code()
+                            if (data.msg != undefined) {
+                                $("#login_order_error").addClass('login-error').html(data.msg);
+                            } else {
+                                $("#login_order_error").addClass('login-error').html('用户名或者密码错误');
+                            }
+                        }
+                    },
+                    error: function (a, b, c) {
+                    }
+                });
+                return false;
+            }
+        });
+    });
+</script>-->
+</body>
+</html>

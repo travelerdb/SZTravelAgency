@@ -1,0 +1,588 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>泰国普吉岛斯米兰群岛6天5晚安心游+一天自由活动-打印行程</title>
+    <style>
+        /*重置CSS*/
+        body,
+        html,
+        div,
+        blockquote,
+        img,
+        label,
+        p,
+        h1, h2, h3, h4, h5, h6,
+        pre,
+        ul, ol, li,
+        dl, dt, dd,
+        form,
+        a,
+        fieldset,
+        input,
+        th,
+        td {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: none;
+            font-size: 12px;
+            font-family: '微软雅黑'
+        }
+
+        body,
+        html {
+            background: #e7e7e7
+        }
+
+        select, textarea {
+            outline: none;
+            font-family: '微软雅黑'
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0
+        }
+
+        fieldset, img {
+            border: 0
+        }
+
+        address, caption, cite, code, dfn, em, strong, th, var {
+            font-style: normal;
+            font-weight: normal
+        }
+
+        ol, ul {
+            list-style: none
+        }
+
+        a {
+            color: #333;
+            text-decoration: none
+        }
+
+        caption, th {
+            text-align: left;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-size: 100%;
+            font-weight: normal
+        }
+
+        q:before, q:after {
+            content: '.';
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden
+        }
+
+        abbr, acronym {
+            border: 0
+        }
+
+        .print-topBox {
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background: #0082dd
+        }
+
+        .print-topBox a {
+            color: #fff;
+            font-size: 14px;
+            margin: 0 45px;
+        }
+
+        .print-mid-content {
+            width: 700px;
+            margin: 20px auto;
+            padding: 10px 50px;
+            background: #fff
+        }
+
+        .print-mid-content:after,
+        .day-num:after,
+        .day-attr dd:after {
+            content: '.';
+            clear: both;
+            display: block;
+            height: 0;
+            overflow: hidden
+        }
+
+        .print-top-msg {
+            height: 50px;
+            padding-bottom: 10px;
+            overflow: hidden;
+            border-bottom: 1px solid #989898
+        }
+
+        .print-top-msg .logo {
+            float: left;
+            height: 50px
+        }
+
+        .print-top-msg .logo img {
+            float: left;
+            height: 50px
+        }
+
+        .print-top-msg .lx-msg {
+            float: right;
+            height: 40px;
+            padding: 5px 0;
+        }
+
+        .print-top-msg .lx-msg p {
+            color: #333;
+            height: 20px;
+            line-height: 20px;
+            text-align: right;
+        }
+
+        .print-nrBox {
+            margin-top: 1px;
+            border-top: 2px solid #989898;
+            border-bottom: 1px solid #989898
+        }
+
+        .print-nrBox .xc-msg {
+            color: #333;
+            margin-bottom: 20px
+        }
+
+        .print-nrBox .xc-msg h1 {
+            padding: 15px 0;
+            font-size: 24px
+        }
+
+        .print-nrBox .xc-msg ul li {
+            line-height: 24px;
+            font-size: 14px
+        }
+
+        .print-nrBox .xc-list {
+            margin-bottom: 20px
+        }
+
+        .print-nrBox .xc-list h3 {
+            color: #333;
+            padding: 5px;
+            font-size: 20px;
+            border-bottom: 1px solid #989898
+        }
+
+        .print-nrBox .xc-list .day-con {
+            margin-top: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dotted #989898
+        }
+
+        .print-nrBox .xc-list .day-con .day-num {
+            color: #333;
+        }
+
+        .print-nrBox .xc-list .day-con .day-num strong {
+            float: left;
+            width: 70px;
+            font-size: 18px;
+            font-weight: bold
+        }
+
+        .print-nrBox .xc-list .day-con .day-num p {
+            padding-left: 70px;
+            line-height: 30px;
+            font-size: 14px
+        }
+
+        .print-nrBox .xc-list .day-con .day-attr dt {
+            float: left;
+            width: 70px;
+            height: 24px;
+            line-height: 24px;
+            font-weight: bold
+        }
+
+        .print-nrBox .xc-list .day-con .day-attr dd {
+            padding-left: 70px;
+            line-height: 24px
+        }
+
+        .print-nrBox .xc-list .day-con .day-attr dd span {
+            display: inline-block;
+            width: 150px;
+            height: 24px;
+            line-height: 24px
+        }
+
+        .print-nrBox .xc-list .contxt {
+            padding: 5px;
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 24px;
+            overflow: hidden;
+        }
+
+        .print-nrBox .xc-list .contxt img {
+            max-width: 100%;
+        }
+
+        .print-bottomBox {
+            color: #333;
+            height: 30px;
+            margin-top: 1px;
+            border-top: 2px solid #989898
+        }
+
+        .print-bottomBox .num {
+            float: left;
+            height: 30px;
+            line-height: 30px
+        }
+
+        .print-bottomBox .more {
+            float: right;
+            height: 30px;
+            line-height: 30px
+        }
+    </style>
+</head>
+<body>
+<div class="print-topBox"><a href="javascript:;"
+                             onclick="if (window.print != null) { window.print(); } else {alert('没有安装打印机'); }">[打印本页]</a>
+    <a href="http://www.zzaly.com/lines/show_481.html">返回上一页</a> <a href="javascript:;"
+                                                                    onclick="javascript:window.close()">[关闭窗口]</a></div>
+<div class="print-mid-content">
+    <div class="print-top-msg">
+        <div class="logo"><a href="http://www.zzaly.com" target="_blank"><img
+                src="/uploads/2019/0521/6f904fff78610d2318afc112e673db28.png"/></a></div>
+        <div class="lx-msg"><p>TEL：18603838974</p>
+            <p>http://www.zzaly.com</p></div>
+    </div>
+    <div class="print-nrBox">
+        <div class="xc-msg"><h1>泰国普吉岛斯米兰群岛6天5晚安心游+一天自由活动</h1>
+            <ul>
+                <li>线路网址：http://www.zzaly.com/lines/show_481.html</li>
+                <li>出发城市：郑州</li>
+                <li>出行天数：6天</li>
+                <li>往返交通：飞机</li>
+            </ul>
+        </div>
+        <div class="xc-list"><h3>线路特色</h3>
+            <div class="contxt"><p><span>​全程入住国际酒店 舒适安心<br/></span></p>
+                <p><span>指定入住：<strong>1晚海边国际五星酒店</strong></span></p>
+                <p><span>——希尔顿阿卡迪亚度假村或皇冠假日酒店</span></p>
+                <p><span>4/5普吉海边Agoda四星酒店</span></p>
+                <p><span>——雅高集团旗下全季酒店（All seasons）或同级</span></p>
+                <p><strong><span>特别赠送一天自由活动！</span></strong></p>
+                <p><span>全程真无自费，如有自费，赔偿1000元！</span></p>
+                <p><span>特别安排：帆船游艇环游色彩缤纷的【珊瑚岛】</span></p>
+                <p><strong><span>特别赠送价值600元大礼包：</span></strong><span>丛林骑大象、佛吉水舞、人妖歌舞表演</span></p>
+                <p><strong><span>臻享特色美食</span></strong><span>，满足个性的你——KINGPOWER 国际自助餐、日式料理、金枪鱼餐厅</span></p></div>
+        </div>
+        <div class="xc-list"><h3>行程安排</h3>
+            <div class="day-con">
+                <div class="day-num"><strong>第一天</strong>
+                    <p>郑州——普吉 参考航班时间：8L821 1045-1555</p></div>
+                <dl class="day-attr">
+                    <dt>用餐情况：</dt>
+                    <dd><span>早餐：自理</span> <span>午餐：自理</span> <span>晚餐：自理</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>住宿情况：</dt>
+                    <dd><span>All Seasons或同级普吉海边(agoda4星）</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>交通工具：</dt>
+                    <dd><span>  汽车  飞机  </span></dd>
+                </dl>
+                <div class="contxt"><p style="line-height: 17px; text-align: justify;"><span
+                        style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><span
+                        style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;;">郑州国际机场集合搭乘国际班机抵达普吉。后前往酒店休息</span>. </span>
+                </p>
+                    <p style="line-height: 17px; text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; color: rgb(255, 0, 0);">备注：1、入住酒店后当日的旅游行程结束，到次日早餐前的时间段为自由活动期，请游客注意自身安全。</span></span>
+                    </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><span
+                            style="font-size: 16px; font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; color: rgb(255, 0, 0);">2、航班在包含中国国际段以及旅游目的地国家内陆航班的情况下，准确航班时间以航空公司实际分配为准。</span></span>
+                    </p>
+                    <p><img src="/uploads/2017/1130/8bcde86443a86f8f9b2525ef45526d79.jpg" alt="飞机" title="飞机"/>​</p>
+                </div>
+            </div>
+            <div class="day-con">
+                <div class="day-num"><strong>第二天</strong>
+                    <p>斯米兰岛寻找心中的净土-浮潜</p></div>
+                <dl class="day-attr">
+                    <dt>用餐情况：</dt>
+                    <dd><span>早餐：酒店自助餐</span> <span>午餐：岛上简餐</span> <span>晚餐：泰南文化村</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>住宿情况：</dt>
+                    <dd><span>All Seasons或同级普吉海边(agoda4星）</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>交通工具：</dt>
+                    <dd><span>  汽车  </span></dd>
+                </dl>
+                <div class="contxt"><p style="text-align: justify;"><span
+                        style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">乘快艇前往【SIMILAN斯米兰群岛】，9个岛中我们挑选了其中最美丽的4个岛，去尽情的游泳与浮潜。同时可以在银白色的沙滩上自由活动。</span>
+                </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><img
+                            src="/uploads/2017/1130/cec5051510047983f7fbce380aec3a69.jpg" alt="SIMILAN斯米兰群岛"
+                            title="SIMILAN斯米兰群岛"/></span></p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">斯米兰岛的美丽是无法用言辞来形容的，只有您的亲身体验，才能感受它的独特魅力。首先我们参观其中最美丽的【4号安岛(Koh&nbsp;Miang)】，这里大片坚固的珊瑚礁高度逐渐地降低到大概30-40米，由于海水深度的增加，这个位置被沙子所代替了。</span>
+                    </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><img
+                            src="/uploads/2017/1130/1edb673ea0fbdafaeeb4665a21e5d088.jpg" alt="安岛" title="安岛"/></span>
+                    </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">在这些岛屿周围形成的旋涡状的、营养丰富的水域有着大量色彩艳丽的热带鱼,&nbsp;在这些水域观赏到巨大鱼儿的机会是很少的，但是在这你也许会偶然碰到美洲豹鲨鱼，甚至鲸鱼。这里有二十多处合格的潜水点，有许多已发展起来拥有自己的国际声誉。之后前往【7号巴雨岛（Koh Payu）】游泳，浮潜之后前往【&nbsp;9号班古岛（Koh&nbsp;Bangru)】上的【圣诞角（Chrismas&nbsp;Point）】,这里是以系列蜿蜒迷人的海湾而得名，多彩成群的蓝鳍鲹，金枪鱼穿梭其中，潜水爱好者您不妨体验畅游其中的乐趣。</span>
+                    </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><img
+                            src="/uploads/2017/1130/1cb94f0d1b1fcf7c5f8a20fe029cd124.jpg" alt="巴雨岛" title="巴雨岛"/></span>
+                    </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">后乘快艇往【8号斯米兰岛(Koh&nbsp;Similan)】享用午餐，8号斯米兰岛上的象头岩(Elephant&nbsp;Head)可能是这群岛屿中最著名的潜水地带，这里是以伸出海面到斯米兰岛西南角的、形状不规则的岩石而命名的。【仙境礁(Fantasy&nbsp;Reef)】,&nbsp;是适合于勘探大量水下岩石形成的受欢迎的地点，同时在这也能碰到一些活的发光物体。我们可以在这里进行【浮潜】，一览海底世界丰富的鱼群，及五彩缤纷的珊瑚，整日出海游玩后我们搭乘快艇返回码头，后专车前往享有印度洋上“泰南明珠”之美誉的世界级度假胜地--普吉岛(车程约2.5小时)。</span>
+                    </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><img
+                            src="/uploads/2017/1130/1a87efd049c63f841a7e65e92c926e8d.jpg" alt="00" title="00"/></span>
+                    </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">备注：上岛有时由于风浪较大无法出行，考虑到客人的安全，故行程会有所调整。(根据行程的前后顺序进行调整)由于岛上条件有限，故岛上餐会相应的简陋，敬请见谅！</span>
+                    </p>
+                    <p style="text-align: justify;"><span style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;;">备注：斯米兰岛一日游行程前后顺序根据涨潮、退潮及人流情况，由船家来安排，所有景点都会走到。如遇天气不好，海上风浪较大，则另行安排其他岛屿，或者取消。）</span>
+                    </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">特别提醒：每位游客乘坐快艇时必须穿救生衣，不能坐船头，若不按规定乘坐，发生意外身体受到伤害，旅行社只协助办理意外保险，旅行社将不承担任何责任。 请注意自身安全，患有高血压、心脏衰弱、癫痫、刚动完手 术、酒醉、孕妇等恕不适合参加。</span>
+                    </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><img
+                            src="/uploads/2017/1130/68ead65eb54ac6b6896c7cc6ee262e46.jpg" alt="" title=""/>​</span></p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><strong><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; color: rgb(0, 0, 255);">备注：1、入住酒店后当日的旅游行程结束，到次日早餐前的时间段为自由活动期，请游客注意自身安全。</span></strong></span>
+                    </p>
+                    <p><br/></p></div>
+            </div>
+            <div class="day-con">
+                <div class="day-num"><strong>第三天</strong>
+                    <p>普吉—品尝燕窝--佛吉水舞—丛林骑大象-人妖秀表演</p></div>
+                <dl class="day-attr">
+                    <dt>用餐情况：</dt>
+                    <dd><span>早餐：酒店自助</span> <span>午餐：飞天空心菜</span> <span>晚餐：水都自助餐</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>住宿情况：</dt>
+                    <dd><span>All Seasons或同级普吉海边(agoda4星）</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>交通工具：</dt>
+                    <dd><span>  汽车  </span></dd>
+                </dl>
+                <div class="contxt"><p style="margin-left: 3px; line-height: 23px; text-align: justify;"><span
+                        style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">酒店早餐，赠送饭后甜品—品尝一碗燕窝。后乘车前往【泼水村】在这里我们可以拜佛、浴佛、放花灯、祈福，观赏泰国的传统舞蹈，参与大型的泼水狂欢，非常震撼。还可以全面了解泰国的泼水文化，去体验和参与泼水，去感受泰国泼水节带来的开心和快乐。享用午餐后带领大家去体验【丛林骑大象】（温馨提示：请提前准备50铢/人的小费，交于训大象的工作人员），丛林骑象以原始树林闻名，在大象背上进行丛林旅行，晚上特别安排具有泰国特色的人妖秀，伴随着音乐声，你会发现这些比女人还女人的人妖，用婀娜多姿的身材，向你诠释什么叫做泰国风情……行程结束后入住酒店休息。</span>
+                </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><strong><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; color: rgb(0, 0, 255);">备注：1、入住酒店后当日的旅游行程结束，到次日早餐前的时间段为自由活动期，请游客注意自身安全。</span></strong></span>
+                    </p>
+                    <p><img src="/uploads/2017/1130/3a095ce643516084ef666d2bf9547471.jpg" alt="丛林骑大象" title="丛林骑大象"/>
+                    </p>
+                    <p><img src="/uploads/2017/1130/22440583e783509db97c9c9290efb608.jpg" alt="人妖秀" title="人妖秀"/>​</p>
+                </div>
+            </div>
+            <div class="day-con">
+                <div class="day-num"><strong>第四天</strong>
+                    <p>快艇【珊瑚岛】+帆船环游【珊瑚岛】</p></div>
+                <dl class="day-attr">
+                    <dt>用餐情况：</dt>
+                    <dd><span>早餐：酒店自助  </span> <span>午餐：珊瑚岛岛上用餐</span> <span>晚餐：金枪鱼餐厅</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>住宿情况：</dt>
+                    <dd><span>All Seasons或同级普吉海边(agoda4星）</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>交通工具：</dt>
+                    <dd><span>  汽车  </span></dd>
+                </dl>
+                <div class="contxt"><p style="text-align: justify;"><span
+                        style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">早餐后，快艇前往【珊瑚岛】（停留约2小时）面积约一平方公里，在印度洋蓝色海水的环绕之中，慵懒的白色沙滩反射着阳光，散发迷人的光晕。从透明渐变到深蓝的海水，蕴藏着无尽的传说和故事。这是一个只属于休闲假日的岛屿，沙滩上的一行渐行渐远足迹，书写着舒适的心情。天际线里七彩的遮阳伞，翻动着夏日的多彩。沙滩上来回奔跑的海浪，搔动你的脚丫，邀请你投入大海的怀抱。四周的海水里聚集了大量的热带鱼，只要你下到海中，他们就围拢上来环绕在你的周围，轻轻叮咬你的手臂或身体，给你来次水下按摩。除此之外，水下美丽的珊瑚礁也在等待你的探索。一片蓝天一顶草帽一行足迹，起伏的潮汐穿过宁静。一轮日落一抹晚霞一盏渔火一个岛屿，一种简单的生活—等待着你…也可以静静的趟在沙滩椅上享受阳光，岛上还有其他付费的娱乐活动供游客自主选择与旅行社无下午搭乘【帆船游艇】环岛游，尽情游完后返回普吉岛。</span>
+                </p>
+                    <p><span style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><strong><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; color: rgb(255, 0, 0);">备注：1、入住酒店后当日的旅游行程结束，到次日早餐前的时间段为自由活动期，请游客注意自身安全。</span></strong></span>
+                    </p>
+                    <p><img src="/uploads/2017/1130/1b2e42acf74a972021fdf925f6040e94.jpg" alt="珊瑚岛" title="珊瑚岛"/></p>
+                    <p><img src="/uploads/2017/1130/a07c35ca480139081782e91ee5b132f2.jpg" alt="珊瑚岛0" title="珊瑚岛0"/>​</p>
+                </div>
+            </div>
+            <div class="day-con">
+                <div class="day-num"><strong>第五天</strong>
+                    <p>珠宝中心—毒蛇研究中心—海龙寺—皮具店—乳胶工厂—泰式SPA </p></div>
+                <dl class="day-attr">
+                    <dt>用餐情况：</dt>
+                    <dd><span>早餐：酒店自助</span> <span>午餐：日式料理自助餐</span> <span>晚餐：kingpower国际自助餐</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>住宿情况：</dt>
+                    <dd><span>希尔顿阿卡迪亚度假村或皇冠假日</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>交通工具：</dt>
+                    <dd><span>  汽车  </span></dd>
+                </dl>
+                <div class="contxt"><p style="text-align: justify;"><span
+                        style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;">早餐后，参观珠宝中心，随后观看人蛇大战表演，而后前往【海龙寺】（约30min）参拜泰国著名的四面佛，为自己和家人祈福。随后参观皮具制品店。参观乳胶工厂。而后将带领各位贵宾前往本公司特别安排的【泰式精油SPA】『约60min』。享受舒筋活骨、养颜美容、消除疲劳之神奇疗效。</span>
+                </p>
+                    <p><span style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><strong><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; color: rgb(255, 0, 0);">备注：1、入住酒店后当日的旅游行程结束，到次日早餐前的时间段为自由活动期，请游客注意自身安全。</span></strong></span>
+                    </p>
+                    <p><img src="/uploads/2017/1130/52c06331a4f821e9bd46ea4e62ff80ce.jpg" alt="kingpower国际自助餐"
+                            title="kingpower国际自助餐"/><img src="/uploads/2017/1130/b2f657a9455dc07a2b4c154d004aa3e6.jpg"
+                                                         alt="泰式精油SPA" title="泰式精油SPA"/>​</p></div>
+            </div>
+            <div class="day-con">
+                <div class="day-num"><strong>第六天</strong>
+                    <p>普吉—自由活动普吉郑州 参考航班时间： 8L822 1720-2215</p></div>
+                <dl class="day-attr">
+                    <dt>用餐情况：</dt>
+                    <dd><span>早餐：酒店自助</span> <span>午餐：自理</span> <span>晚餐：自理</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>住宿情况：</dt>
+                    <dd><span>家</span></dd>
+                </dl>
+                <dl class="day-attr">
+                    <dt>交通工具：</dt>
+                    <dd><span>  汽车  飞机  </span></dd>
+                </dl>
+                <div class="contxt"><p style="line-height: 17px; text-align: justify;"><span
+                        style="font-size: 16px; font-family: 微软雅黑, &quot;Microsoft YaHei&quot;;">早餐后，酒店自由活动，体验国际豪华酒店，约定时间送往普吉国际机场乘机返回温暖的家</span>
+                </p>
+                    <p style="text-align: justify;"><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; font-size: 16px;"><strong><span
+                            style="font-family: 微软雅黑, &quot;Microsoft YaHei&quot;; color: rgb(255, 0, 0);">备注：1、自由活动期间，请游客注意自身安全，自由活动时间根据回程航班略有缩减。</span></strong></span>
+                    </p>
+                    <p><img src="/uploads/2017/1130/292c069865a6bd7a22a3c0a0704b2ec1.jpg" alt="希尔顿阿卡迪亚度假村"
+                            title="希尔顿阿卡迪亚度假村"/>​</p></div>
+            </div>
+        </div>
+        <div class="xc-list"><h3>费用包含</h3>
+            <div class="contxt"><p><span>1、郑州/普吉岛往返国际机票，团队经济舱，含机场建设税；</span></p>
+                <p><span>2、普吉豪华团队酒店</span></p>
+                <p><span>3、境外旅游巴士</span></p>
+                <p><span>4、行程所列景点门票</span></p>
+                <p><span>5、境外旅游人身意外险</span></p>
+                <p><br/></p></div>
+        </div>
+        <div class="xc-list"><h3>费用不含</h3>
+            <div class="contxt"><p><span>1、&nbsp;护照费用；境外导游小费每人每天20元人民币。</span></p>
+                <p><span>2、&nbsp;泰国旅游签证费用；</span></p>
+                <p><span>3、&nbsp;酒店内电话、传真、洗熨、收费电视、饮料等奋勇；酒店行李搬运等费用不含</span></p>
+                <p><span>4、&nbsp;旅游费用不包括旅游者因违约、自身过错、自由活动期间内行为或自身疾病引起的人身和财产损失</span></p>
+                <p><span>5、&nbsp;因个人原因滞留产生的一切费用；</span></p>
+                <p><span>6、&nbsp;因气候或飞机、车辆、船只等交通工具发生故障导致时间延误或行程变更引起的经济损失和责任；</span></p>
+                <p><span>7、&nbsp;行李在航班托运期间的造成损坏的经济损失和责任；</span></p>
+                <p><span>8、&nbsp;服务项目未提到的其他一切费用</span></p>
+                <p>​<br/></p></div>
+        </div>
+        <div class="xc-list"><h3>签约付款</h3>
+            <div class="contxt"></div>
+        </div>
+        <div class="xc-list"><h3>温馨提示</h3>
+            <div class="contxt"><p><span>服务标准说明：</span></p>
+                <p><span>1、行程说明：</span></p>
+                <p>
+                    <span>如遇部分景点节假日休息或庆典等，本社有权根据实际情况调整行程游览先后顺序，以尽可能保证游览内容，但客客观因素限制确实无法安排的，本社将根据实际情况进行调整，敬请各位贵宾理解与配合！</span>
+                </p>
+                <p><span>根据国际航班团队搭乘要求，团队通常须提前3-3.5小时到达机场办理登机手续，故国际段航班在当地下午15点前（含15点），晚间21点前（含21点）起飞的，行程均不含午餐或晚餐</span>
+                </p>
+                <p><span>出于安全考虑和泰国有关方面的要求，参团的客人必须在白天按照行程活动，如果在出团前没有声明在境外白天将要脱离团队不按照行程活动，而在境外发生此类情况，泰国接待方将要报警备案；</span>
+                </p>
+                <p><span>行程内赠送游览项目，以增长见识，开阔视野为目的。导游可根据天气，当地交通等行程进行调整。如因天气、交通等不可抗力导致不能乘坐快艇，则改为乘大船前往大PP岛往返，中途各项（帝王岛、小PP岛环岛+情人沙滩、国家珊瑚保护区、热带鱼保护区、珍珠湾、燕窝洞）将不能前往。如客人自行放弃行程中赠送项目（人妖、精油Spa等不适宜儿童的），不可退费；</span>
+                </p>
+                <p><span>包机（或者其它航班）有可能根据起飞当日情况调整起飞时间及候机楼或登机口，此类情况请以出团确认和办理登机手续时的信息为准</span></p>
+                <p><span>请旅客携带中国境内的银联卡或信用卡，以备万一之需。因不可抗拒的客观原因和非旅行社原因（如天灾、战争、罢工、政府行为等）或航空公司航班延误或取消、使领馆签证延误、报名人数不足等特殊情况，我公司有权取消或变更行程，一切超出费用（如在外延期签证费、住、食及交通费、国家航空运价调整等）由旅客在境外自理付费，旅行社有权追加差价</span>
+                </p>
+                <p><span>2、&nbsp;酒店标准：</span></p>
+                <p><span>由于团队行程中所有住宿、用车、景点门票等均为旅行社打包整体销售，因此若游客因自身原因未能游览参观的则视为自动放弃，旅行社将无法退费用。泰国酒店没有官方公布的星级标准，没有挂星制度。以上所标明的星级标准为泰国当地行业参考标准；泰国酒店是根据规模大小、地理位置及配套设施来定价，无星级参考标准</span>
+                </p>
+                <p><span>如果因展会、政府活动、当地节日等酒店爆满，我公司会依当时情况调整同级酒店，不会影响酒店标准及整体游览时间</span></p>
+                <p><span>普吉岛酒店大堂都比较小，无商城，电梯每次只能乘坐两个人和行李，大部分酒店没有电梯，有的酒店是联排形式</span></p>
+                <p><span>由于各种原因如环保等，酒店一般不提供一次性洗漱用品，请自带</span></p>
+                <p><span>3、&nbsp;保险说明：</span></p>
+                <p>
+                    <span>我社所上境外旅游人身意外保险，此保险为我社代投保项目，如在境外发生意外就医，请留好底单及消费记录，回国联系报名社索要保单号致电保险公司自行理赔。（保险公司电话：姜仁旭 84480354）</span>
+                </p>
+                <p><span>团队报名人员岁数超过65岁以上的需要投保SOS救援保险</span></p>
+                <p><span>旅游人身意外险不包括游客自身携带疾病、旧病复发、且在出团日前180天内未经过治疗的疾病（如心脏病复发、高血压、糖尿病并发症、移植手术复发、孕妇、精神病发作等等）</span></p>
+                <p><span>我社推荐客人根据自身情况额外补上医疗的大额保险</span></p>
+                <p><span>旅游意外伤害险或救援险承保范围不包括以下情况，请游客购买前咨询相关保险公司： </span></p>
+                <p><span>1、游客自身带有的慢性疾病；</span></p>
+                <p><span>2、参加保险公司认定的高风险项目如跳伞、滑雪、潜水等；</span></p>
+                <p><span>3、妊娠、流产等保险公司规定的责任免除项目。</span></p>
+                <p><span>4、&nbsp;退费说明：</span></p>
+                <p><span>游客因个人原因临时自愿放弃游览，酒店住宿、餐、车等费用均不退还</span></p>
+                <p><span>团队机票一旦出票不得改签换人退票</span></p>
+                <p><span>行前解约责任按照北京市出境旅游合同相关条款执行，实际损失里含有机票，签证服务费和酒店预订等；</span></p>
+                <p><span>应当保证向组团社提交的因私护照有效期在半年以上，自办的签证要在行程期间内有效，否则由此产生的损失100%由贵宾承担</span></p>
+                <p><span>此行程报价仅适用于持中国护照的客人，外籍客人价格另议</span></p>
+                <p><span>5、境外法规及风俗习惯</span></p>
+                <p><span>建议您出行带伞；</span></p>
+                <p><span>建议您携带防止晕车晕船的药品；</span></p>
+                <p><span>建议您最好不要到离岸较远的海里游泳，海中会有海蜇、珊瑚等，以免受伤；</span></p>
+                <p><span>泰国有付小费的习惯，是国际礼仪之一是对服务人员工作的肯定与感谢；</span></p>
+                <p><span>参加沙滩摩托等项目时，儿童需有父母多加看护，以防意外跌伤；</span></p>
+                <p><span>泰国的年平均气温在26-36摄氏度，请注意防晒；在参观寺庙时请勿穿拖鞋、短裙、背心进入；</span></p>
+                <p><span>泰国的酒店因环保需要一般需自备牙刷、牙膏、拖鞋；请根据自身身体状况自备常用药物；</span></p>
+                <p><span>泰国酒店插座均可使用110V-220V电源，使用时请注意；</span></p>
+                <p><span>凡开通国际漫游功能的手机用户，在泰国均可正常使用。</span></p>
+                <p><span>泰国是小费制国家，给小费是当地的一种习惯习俗，也遵循自愿原则，此行程可能遇到如下小费：</span></p>
+                <p><span>1）床头小费（每天早上起来床头放20株）</span></p>
+                <p><span>2）骑大象（50株/人）</span></p>
+                <p><span>3）SPA精油指压（100株/人）</span></p>
+                <p><span>4）和人妖合照（50株/人）</span></p>
+                <p><span>5）司机服务小费（100铢/人）</span></p>
+                <p><span>以上仅供参考，实际请以当地导游提示为准！</span></p>
+                <p><span>6、安全事宜</span></p>
+                <p><span>境外游览时请注意人身安全和财产安全。整体治安相对较好，但某些国家也存在治安隐患，尤其景区、酒店大堂、百货公司、餐厅等游客聚集的地方更是偷窃行为多发地，请游客务必随同导游带领并注意结伴而行，在游玩过程中，时刻注意自己随身携带的物品安全；</span>
+                </p>
+                <p><span>乘坐交通工具时，现金、证件或贵重物品请务必随身携带，不应放进托运行李内；外出旅游离开酒店及旅游车时，也请务必将现金、证件或贵重物品随身携带。因为酒店不负责客人在客房中贵重物品安全，司机也不负责巴士上旅客贵重物品的安全，保险公司对现金是不投保的。</span>
+                </p>
+                <p><span>7、货币兑换及时差</span></p>
+                <p><span>在泰国使用货币为泰铢为主，人民币与泰铢的比值是1：4左右，泰铢在泰国机场或银行均可换取，建议和导游兑换，这样离境时可以用相同汇率换回人民币，另建议携带一张国际信用卡出行；</span>
+                </p>
+                <p><span>泰国比北京时间晚1小时，如北京时间为10:00，则泰国时间为09:00。</span></p>
+                <p><span>8、风险提示</span></p>
+                <p><span>游客需对其本人身体状况是否适合本次旅游负责，另外应加强安全防范意识、服从安排、听从劝告。特别是在海边、泳池游泳、潜水、漂流等从事危险活动时，应根据自身身体情况决定运动时间、运动量，避免意外溺水等意外事件的发生，以确保您自身的人身安全问题，避免发生意外事故；</span>
+                </p>
+                <p><span>旅行社对于游客参加活动时因个人因素和不可抗力因素以及第三方原因造成的事故和伤害不承担法律、经济和医疗责任；游客承诺如因个人因素和不可抗力因素以及第三方原因造成的事故和伤害，将不追究旅行社的任何民事、经济和医疗责任；另外，根据旅游行业惯例和旅游合同之规定，旅行社对于游客在自由活动期间所发生的意外事件不承担责任，如游客在自由活动期间欲从事有任何危险因素的活动时（如游泳、潜水、漂流等），一定要注意安全，在不能确定是否安全时，最好不要从事此类活动；</span>
+                </p>
+                <p><span>旅游期间财物请随身保管，车上不可放贵重物品，自由活动期间注意安全，证件最好交酒店保险箱寄存；如已发生意外事故，请游客及时与领队联系，以方便旅行社组织救援或调整计划，并协调配合处理相关事件。如因不听从劝告擅自从事危险活动（如游泳等）及自由活动期间发生意外事故，责任由旅行者自行负责。</span>
+                </p>
+                <p><span>旅行社原则上不会在行程中安排高风险项目，在自由活动期间请您慎重选择参加诸如吉普车越野、摩托车驾驶、自驾车、蹦极、水上摩托、滑翔伞、冲浪、探险等高风险项目；<br/>A.&nbsp;行程中有些项目如赠送的快艇套餐等是较刺激的项目，请客人在乘坐时听从导游、领队安排，穿好救生衣，尽量坐在快艇中后部，坐稳扶好，否则在快艇行驶过程中可能会由于颠簸而导致腰部、尾椎等受伤。待快艇停稳后方可上、下艇；<br/>B.&nbsp;游泳及潜水入水前请确认身体状况适合游泳，没有影响身体机能的慢性病及心脏病，入水前严禁暴饮暴食及空腹下水。杜绝独身下水，游泳时应有身强体壮或有照应能力的同伴跟随；<br/>C.&nbsp;坚决不要到离岸较远的非游泳区游泳，海中会有海蜇、珊瑚等危险动物，以免受伤；<br/>D.&nbsp;如在境外参加潜水、浮潜等活动前，请确保自身会游泳及会使用潜水设备，如遇外籍教练进行活动前培训，应确保能够正确理解教练的一切意图，否则不要参加此项活动；<br/>E.&nbsp;因个人体质不同可能会出现晒伤及光过敏，请客人自己考量并自行承担晒伤后果；<br/>F.&nbsp;有心脑血管疾病、慢性病及特殊疾病史的客人（尤其腰椎病史）、老人和儿童谨慎参加，18岁以下未成年人需在监护人的陪同下参加，孕妇坚决不能参加浮潜、快艇等此类项目；<br/>G.&nbsp;如遇天气不好，雨天、大风大浪等情况一定不要冒险下水、乘坐快艇；<br/>H.&nbsp;坚决不参加吉普车越野、摩托车驾驶、自驾车、水上摩托、滑翔伞等高风险项目；</span>
+                </p>
+                <p>
+                    <span>如已发生意外事故，请游客及时与领队联系，以方便旅行社组织救援或调整计划，并协调配合处理相关事件。如因不听从劝告擅自从事危险活动（如游泳等）及自由活动期间发生意外事故，责任由旅行者自行负责；</span>
+                </p>
+                <p><br/></p></div>
+        </div>
+    </div>
+    <div class="print-bottomBox">
+        <div class="num"><span>电话：18603838974</span> <!--   <span>微信：sdwdlvyou</span>--> </div>
+        <div class="more">更多线路请登录：http://www.zzaly.com</div>
+    </div>
+</div>
+</body>
+</html>
