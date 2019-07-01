@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/myvalidate.js"></script>
+    <script type="text/javascript" src="../../../static/vue/vue.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/icon.css"/>
+
+    <script type="text/javascript">
+
+    </script>
+</head>
+<body>
+<table  class="easyui-datagrid" height="auto" style="width:100%"  id="tb"
+        data-options="url:'../../lyq/combotal/queryAll',fitColumns:'true',toolbar:'#tools',singleSelect:true,pagination:true,pageNumber:1,pageSize:1,pageList:[1,2,3,4,5,10]">
+    <thead>
+    <tr>
+        <th data-options="field:'comboId',width:50">编号</th>
+        <th data-options="field:'title',width:60">标题</th>
+        <th data-options="field:'route',width:60">路线</th>
+        <th data-options="field:'dolName',width:60,formatter:(function(value,row,index){
+					if(''==value){
+					    return '';
+					}else{
+					    return value;
+					}
+				})">二级套餐</th>
+        <th data-options="field:'enlistAfterDay',width:60">报名时间</th>
+        <th data-options="field:'adultPrice',width:60">成人价</th>
+        <th data-options="field:'childPrice',width:60">儿童价</th>
+        <th data-options="field:'allowance',width:60">折扣</th>
+        <th data-options="field:'beginCity',width:60">出发城市</th>
+        <th data-options="field:'countDay',width:60">交通工具</th>
+        <th data-options="field:'vehicle',width:60">出行天数</th>
+        <th data-options="field:'includeInfo',width:60">费用包含说明</th>
+        <th data-options="field:'uncludeInfo',width:60">不包含说明</th>
+        <th data-options="field:'paymentInfo',width:60">付款说明</th>
+        <th data-options="field:'payAttenInfo',width:60">注意事项</th>
+        <th data-options="field:'visaInfo',width:60">签证说明</th>
+        <th data-options="field:'operaDate',width:60">操作时间</th>
+        <th data-options="field:'empName',width:60">操作人</th>
+        <th data-options="field:'comboState',width:60,formatter:(function(value,row,index){
+					if(0==value){
+					    return '下架';
+					}else if(1==value){
+					    return '上架';
+					}else if(2==value){
+					    return '私人定制';
+					}
+				})">套餐状态</th>
+        <th data-options="field:'comboImage',width:60">封面图片</th>
+        <!--<th data-options="field:'rt',width:60,formatter:(function(value,row,index){
+					return value.tname;
+				})">房间类型</th>-->
+    </tr>
+    </thead>
+</table>
+</body>
+</html>

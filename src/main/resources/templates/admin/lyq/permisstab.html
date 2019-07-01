@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/myvalidate.js"></script>
+    <script type="text/javascript" src="../../../static/vue/vue.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/icon.css"/>
+
+    <script type="text/javascript">
+        var comboboxs=[{
+            "id":"icon-add",
+            "text":'<img src="../../../static/easyui-1.5.2/themes/icons/edit_add.png"/>'
+        },{
+            "id":"icon-edit",
+            "text":'<img src="../../../static/easyui-1.5.2/themes/icons/pencil.png"/>'
+        },{
+            "id":"icon-clear",
+            "text":'<img src="../../../static/easyui-1.5.2/themes/icons/clear.png"/>'
+        },{
+		    "id":"icon-1",
+		    "text":'<img src="../../../static/easyui-1.5.2/themes/icons/1.ico"/>'
+		}];
+
+        var editNodeId = -1;
+        //判断是添加节点还是修改节点
+        var nodeState=0;
+        $(function(){
+            $("#tb").treegrid({
+                /*url:"http://localhost:8080/lyq/permiss/queryNg",*/
+                url:"http://localhost:8080/lyq/tree/getTree",
+                idField:"id",
+                treeField:"text",
+                columns:[[
+                    {field:'text',title:'菜单名',width:100,editor:"text"},
+                    {field:'iconCls',title:'图标',width:100,editor:{"type":"combobox","options":{"data":comboboxs,valueField:"id",textField:"text"}}},
+                    {field:'url',title:'访问路径',width:120,editor:{"type":"validatebox","options":{"validType":"maxSize[50]"}}},
+                    {field:'_parentId',title:'上级菜单',width:120,formatter:fmParentid,editor:{"type":"combotree","options":{"url":"http://localhost:8080/lyq/tree/getTree"}}},
+                    {field:'operaId',title:'操作人',width:120},
+                    {field:'operaDate',title:'操作时间',width:120},
+                ]],
+                // 加载过滤器,返回值是表格最终接收的数据信息,会修改源数据(添加属性信息);
+                loadFilter:function(rows){
+                    var total = rows.length;
+                    if(total>0){
+                        /* <![CDATA[ */
+                        for(var i=0;i < total;i++){
+                            //alert(JSON.stringify(rows[i]));
+                            //rows[i].children = null;
+                            // 一级节点为null
+                            if(rows[i].parentId == 0){
+                                rows[i]._parentId = null;
+                                rows[i].url=null;
+                                rows[i].operaDate=rows[i].attributes.operaDate;
+                                rows[i].operaId=rows[i].attributes.operaId;
+                            }else{
+                                rows[i]._parentId = rows[i].parentId;
+                                //二级
+                                if(rows[i].children!=null) {
+                                    for (var a = 0; a < rows[i].children.length; a++) {
+                                        rows[i].children[a].url = rows[i].children[a].attributes.url;
+                                        rows[i].children[a].operaDate = rows[i].children[a].attributes.operaDate;
+                                        rows[i].children[a].operaId = rows[i].children[a].attributes.operaId;
+
+                                        //三级
+                                        if(rows[i].children[a].children!=null) {
+                                            for (var b = 0; b < rows[i].children[a].children.length; b++) {
+                                                rows[i].children[a].children[b].url = rows[i].children[a].children[b].attributes.url;
+                                                rows[i].children[a].children[b].operaDate = rows[i].children[a].children[b].attributes.operaDate;
+                                                rows[i].children[a].children[b].operaId = rows[i].children[a].children[b].attributes.operaId;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        /*]]>*/
+                    }
+                    return rows;
+                },
+                fitColumns:true,
+                toolbar:[{
+                    text:"删除",
+                    iconCls:"icon-remove",
+                    handler:function(){
+                        alert("删除");
+                        var row = $("#tb").treegrid("getSelected");
+                        if(row==null){
+                            $.messager.show({
+                                title:"提示",
+                                msg:"没有要保存的数据"
+                            });
+                        }else{
+                            var pId="";
+                            pId+=row.id+",";
+                            if(row.children!=null){
+                                alert(JSON.stringify(row.children.length));
+                                /* <![CDATA[ */
+                                for(var i=0;i < row.children.length;i++){
+                                    pId+=row.children[i].id+",";
+                                    if(row.children[i].children!=null){
+                                        for(var a=0;a < row.children[i].children.length;a++){
+                                            pId+=row.children[i].children[a].id+",";
+                                        }
+                                    }
+                                }
+                                /*]]>*/
+                            }
+
+                            $.post("../../lyq/permiss/delete",{"pId":pId},function(data){
+                                if(1==data){
+                                    $("#tb").treegrid("reload");
+                                }
+                            });
+                        }
+                        // 删除节点以及子节点
+                    }
+                },'-',{
+                    text:"保存",
+                    iconCls:"icon-remove",
+                    handler:function(){
+                        //当有编辑行时
+                        if(editNodeId != -1 ){
+                            //结束该行的编辑状态
+                            $("#tb").treegrid("endEdit",editNodeId);
+                            //获取该行的数据
+                            var row=$("#tb").treegrid('find',editNodeId);
+                            alert(JSON.stringify(row));
+                            var perId=row.id;
+                            var perTitle=row.text;
+                            var icon=row.iconCls;
+                            var url=row.url;
+                            var perLevel="";
+                            if(""==row._parentId){
+                                perLevel=0;
+                            }else{
+                                perLevel=row._parentId;
+                            }
+                            alert(perTitle+" "+icon+" "+perLevel+" "+url);
+
+                            if(nodeState==1){
+                                // 保存
+                                $.post("../../lyq/permiss/add",{perTitle:perTitle,icon:icon,url:url,perLevel:perLevel},function(data){
+                                    if(1==data){
+                                        $("#tb").treegrid("reload");
+                                    }
+                                });
+                            }else if(nodeState==2){
+                                // 修改
+                                $.post("../../lyq/permiss/update",{perId:perId,perTitle:perTitle,icon:icon,url:url,perLevel:perLevel},function(data){
+                                    if(1==data){
+                                        $("#tb").treegrid("reload");
+                                    }
+                                });
+                            }
+                            editNodeId = -1;
+                            nodeState=0;
+                        }else{
+                            $.messager.show({
+                                title:"提示",
+                                msg:"没有要保存的数据"
+                            });
+                        }
+                    }
+                },'-',{
+                    text:"添加节点",
+                    iconCls:"icon-add",
+                    handler:function(){
+                        if(nodeState==0){
+                            $("#tb").treegrid("insert",{
+                                before:1,
+                                data:{
+                                    id:-2,
+                                    text:"",
+                                    iconCls:"",
+                                    url:"",
+                                    _parentId:0
+                                }
+                            });
+                        }
+                        $("#tb").treegrid("beginEdit",-2);
+                        editNodeId = -2;
+                        nodeState=1;//添加节点
+                    }
+                }],
+                onDblClickRow:function(row){
+                    // 判断当前行是否处于编辑状态
+                    if(editNodeId == row.id){// 是编辑状态
+                        $("#tb").treegrid("endEdit",editNodeId);
+                        //获取该行的数据
+                        var row=$("#tb").treegrid('find',editNodeId);
+                        alert(JSON.stringify(row));
+                        var perId=row.id;
+                        var perTitle=row.text;
+                        var icon=row.iconCls;
+                        var url=row.url;
+                        var perLevel="";
+                        if(""==row._parentId){
+                            perLevel=0;
+                        }else{
+                            perLevel=row._parentId;
+                        }
+
+                        if(nodeState==1){
+                            // 保存
+                            $.post("../../lyq/permiss/add",{perTitle:perTitle,icon:icon,url:url,perLevel:perLevel},function(data){
+                                if(1==data){
+                                    $("#tb").treegrid("reload");
+                                }
+                            });
+                        }else if(nodeState==2){
+                            // 修改
+                            $.post("../../lyq/permiss/update",{perId:perId,perTitle:perTitle,icon:icon,url:url,perLevel:perLevel},function(data){
+                                if(1==data){
+                                    $("#tb").treegrid("reload");
+                                }
+                            });
+                        }
+
+                        editNodeId = -1;
+                        nodeState=0;
+
+                        // 刷新
+                        $("#tb").treegrid("reload");
+                    }else{// 不是编辑状态
+                        // 判断是否有正在编辑的行
+                        if(editNodeId == -1){// 没有
+                            // 获取节点id,打开编辑状态
+                            $("#tb").treegrid("beginEdit",row.id);
+                            editNodeId = row.id;
+                            nodeState=2;
+                        }else{
+                            $.messager.confirm("提示","是否保存正在编辑的数据信息？",function(r){
+                                if(r){
+                                    // 结束编辑状态
+                                    $("#tb").treegrid("endEdit",editNodeId);
+                                    //获取该行的数据
+                                    var row=$("#tb").treegrid('find',editNodeId);
+                                    alert(JSON.stringify(row));
+                                    var perId=row.id;
+                                    var perTitle=row.text;
+                                    var icon=row.iconCls;
+                                    var url=row.url;
+                                    var perLevel="";
+                                    if(""==row._parentId){
+                                        perLevel=0;
+                                    }else{
+                                        perLevel=row._parentId;
+                                    }
+
+                                    if(nodeState==1){
+                                        // 保存
+                                        $.post("../../lyq/permiss/add",{perTitle:perTitle,icon:icon,url:url,perLevel:perLevel},function(data){
+                                            if(1==data){
+                                                $("#tb").treegrid("reload");
+                                            }
+                                        });
+                                    }else if(nodeState==2){
+                                        // 修改
+                                        $.post("../../lyq/permiss/update",{perId:perId,perTitle:perTitle,icon:icon,url:url,perLevel:perLevel},function(data){
+                                            if(1==data){
+                                                $("#tb").treegrid("reload");
+                                            }
+                                        });
+                                    }
+
+                                }else{
+                                    // 取消
+                                    $("#tb").treegrid("cancelEdit",editNodeId);
+                                    if(nodeState==1){
+                                        $("#tb").treegrid("remove",editNodeId);
+                                    }
+
+                                }
+
+                                $("#tb").treegrid("beginEdit",row.id);
+                                nodeState=0;
+                                editNodeId = row.id;
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        function fmParentid(parentId){
+            var node = $("#tb").treegrid("find",parentId);
+            if(node != null){
+                return node.text;
+            }else{
+                return "";
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+<table id="tb"></table>
+
+</body>
+</html>

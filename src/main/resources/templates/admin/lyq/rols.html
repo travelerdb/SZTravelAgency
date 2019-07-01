@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/myvalidate.js"></script>
+    <script type="text/javascript" src="../../../static/vue/vue.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/icon.css"/>
+
+    <script type="text/javascript">
+
+        var action = "";
+
+        $(function(){
+            // 初始化datagrid数据表格
+            $("#tb").datagrid({
+                width:"100%",
+                url:'../../lyq/role/queryRols',
+                fitColumns:true, // 列宽自适应
+                singleSelect:true,// 当行选中
+                columns:[[
+                    {field:'roleId',width:50,title:'编号'},
+                    {field:'roleName',width:100,title:'角色名称'}
+                ]],
+                // toolbar:'#tools',
+                toolbar:[{text:"新增",
+                    iconCls:"icon-add",
+                    // 处理
+                    handler:function(){
+                        $("#ff").form("reset");
+                        $("#dl").dialog("setTitle","新增");
+                        $("#dl").dialog("open");
+
+                        action = "../../lyq/role/add";
+                    }
+                },'-',{text:"修改",
+                    iconCls:"icon-edit",
+                    handler:function(){
+                        // 判断是否选中修改数据
+                        var row = $("#tb").datagrid("getSelected");
+                        if(row != null){
+                            $("#ff").form("reset");
+                            $("#ff").form("load",row);
+                            $("#dl").dialog("setTitle","修改").dialog("open");
+                            action = "../../lyq/role/update";
+                        }else{
+                            $.messager.alert("提示","请选择要修改得数据");
+                        }
+                    }
+                },'-',{text:"删除",
+                    iconCls:"icon-remove",
+                    handler:function(){
+                        var row = $("#tb").datagrid("getSelected");
+                        if(row != null){
+                            $.post("../../lyq/role/delete",{"roleId":row.roleId},function(data){
+                                if(data==1){
+                                    $.messager.show({
+                                        title:"提示",
+                                        msg:"删除成功"
+                                    });
+                                    // 刷新数据表格
+                                    $("#tb").datagrid("reload");
+                                }else{
+                                    $.messager.show({
+                                        title:"提示",
+                                        msg:"删除失败"
+                                    });
+                                }
+                            });
+                        }else{
+                            $.messager.alert("提示","请选择要删除得数据");
+                        }
+                    }
+                },'-',{text:"权限设置",
+                    iconCls:"icon-print",
+                    handler:function(){
+                        var row = $("#tb").datagrid("getSelected");
+                        if(row != null){
+                            // 初始化树状菜单
+                            $("#tree").tree({
+                                url:"../../lyq/tree/getTree",
+                                checkbox:true,
+                                onLoadSuccess:function(data){
+                                    var nids=[];
+                                    //------------------
+                                    //现在角色的权限是死的，到时候改为获取登陆人的权限
+                                    $.post("../../lyq/role/queryByRid",{"roleId":row.roleId},function(data){
+                                        nids=data;
+                                        // 获取当前角色的权限
+                                        //var nids = [1,101,102,10101,10102,2,201];
+                                        // 设置树状菜单选中
+                                        /* <![CDATA[ */
+                                        for(var i=0;i<data.length;i++){
+                                            nids[i]=data[i].perId;
+                                        }
+
+                                        for(var i=0;i<nids.length;i++){
+                                            var node = $("#tree").tree("find",nids[i]);
+                                            if($("#tree").tree("getChildren",node.target).length==0){
+                                                $("#tree").tree("check",node.target);
+                                            }
+                                        }
+                                        /*]]>*/
+                                    });
+
+                                }
+                            });
+
+                            // 打开窗口
+                            $("#tree-dl").dialog("open");
+                        }else{
+                            $.messager.alert("提示","请选择要设置得数据");
+                        }
+                    }
+                }]
+            });
+
+            $("#tree-dl").dialog({
+                buttons:[{
+                    text:"保存",
+                    iconCls:"icon-save",
+                    handler:function(){
+                        var rid = $("#tb").datagrid("getSelected").roleId;
+                        var nodes = $("#tree").tree("getChecked");
+                        var nids = [];
+                        /* <![CDATA[ */
+                        for(var i=0;i<nodes.length;i++){
+                            // 判断数组中是否已经存在该id
+                            var j = jQuery.inArray(nodes[i].id,nids);
+                            if(j == -1){
+                                nids.push(nodes[i].id);
+                            }
+                            // 找父节点
+                            var parentNode=$("#tree").tree("getParent",nodes[i].target);
+                            while(parentNode != null ){
+                                // 判断数组中是否已经存在该id
+                                var k = jQuery.inArray(parentNode.id,nids);
+                                if(k == -1){
+                                    nids.push(parentNode.id);
+                                }
+                                parentNode=$("#tree").tree("getParent",parentNode.target);
+                            }
+                        }
+                        var nidss="";
+                        for(var i=0;i<nids.length;i++){
+                            nidss+=nids[i]+",";
+                        }
+                        alert(rid+" "+nidss);
+                        /*]]>*/
+                        $.post("../../lyq/role/edit",{"roleId":rid,"nidss":nidss},function(data){
+                            if(1==data){
+                                $("#tree-dl").dialog("close");
+                            }else{
+                                alert("出错了");
+                            }
+                        });
+                    }
+                },{
+                    text:"取消",
+                    iconCls:"icon-cancel",
+                    handler:function(){
+                        alert("console");
+                    }
+                }]
+            });
+
+            // 隐藏对话框
+            $("#dl").dialog("close");
+            $("#tree-dl").dialog("close");
+        });
+
+        function submitForm(){
+            $("#ff").form('submit', {
+                url:action,
+                //提交的数据
+                onSubmit: function(params){
+                    var rs = $("#ff").form("validate");
+                    return rs;
+                },
+                success:function(data){
+                    // 关闭窗口
+                    $("#dl").dialog("close");
+                    // 刷新数据表格
+                    $("#tb").datagrid("reload");
+                }
+            });
+        }
+
+        function clearForm(){
+            $("#ff").form("reset");
+        }
+    </script>
+</head>
+<body>
+<table id="tb"></table>
+
+<!-- 添加修改 -->
+<div class="easyui-dialog" style="width:500px;height:300px;padding:10px 60px;" id="dl">
+    <form id="ff" method="post">
+        <input style="width:100%"  id="rid" name="roleId"/>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" id="roleName" name="roleName" style="width:100%" data-options="label:'姓名：',required:true"/>
+        </div>
+    </form>
+
+    <div style="text-align:center;padding:5px 0">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()" style="width:80px">清空</a>
+    </div>
+</div>
+
+<!-- 权限设置 -->
+<div id="tree-dl" class="easyui-dialog" style="width:300px;height:400px;" title="权限设置">
+    <ul id="tree"></ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/myvalidate.js"></script>
+    <script type="text/javascript" src="../../../static/vue/vue.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/icon.css"/>
+
+    <script type="text/javascript">
+
+        $(function(){
+            $("#dl").dialog("close");
+        });
+
+        var action="";
+
+        //显示添加/修改
+        function showDialog(str){
+
+            // 重置
+            clearForm();
+            if(str == "edit"){
+
+                // 判断是否选中修改数据
+                var row = isSeleted();
+                if(row!=null){
+                    $("#ff").form("load",row);
+
+                    $("#dl").dialog("setTitle","修改").dialog("open");
+                    action = "../../lyq/oneselfplantab/update";
+                }
+            }
+        }
+
+        // 判断是否有选中项
+        function isSeleted(){
+            var row = $("#tb").datagrid("getSelected");
+            if(row == null){
+                $.messager.alert("提示","请选择要操作得数据");
+                return null;
+            }else{
+                return row;
+            }
+        }
+
+        function clearForm(){
+            $("#ff").form("reset");
+        }
+
+        //提交
+        function submitForm(){
+            $("#ff").form('submit', {
+                url:action,
+                //提交的数据
+                onSubmit: function(params){
+                    var rs = $("#ff").form("validate");
+                    return rs;
+                },
+                success:function(data){
+                    $("#dl").dialog("close");
+                    // 刷新
+                    $("#tb").datagrid("reload");
+                }
+            });
+
+        }
+
+        //删除
+        function del(){
+            var row = $("#tb").datagrid("getSelected");
+            if(row != null){
+                $.post("../../lyq/oneselfplantab/delete",{"planId":row.planId},function(data){
+                    // 提示成功
+                    if(data==1){
+
+                        $.messager.show({
+                            title:'提示',
+                            msg:'success'
+                        });
+                        // 刷新
+                        $("#tb").datagrid("reload");
+                    }else{
+                        $.messager.show({
+                            title:'提示',
+                            msg:'error'
+                        });
+                    }
+                });
+            }else{
+                $.messager.alert('提示','请选择要删除得数据');
+            }
+        }
+
+        function addRec(){
+            var row = isSeleted();
+            if(null!=row){
+                $("#needId2").val(row.needId);
+                if(row.planState==2){
+                    $("#ddl").dialog("setTitle","制定套餐").dialog("open");
+                }
+            }
+        }
+
+        //提交要生成的私人定制套餐
+        function submitForm2(){
+            $("#ffa").form('submit', {
+                url:"../../lyq/combotal/add",
+                //提交的数据
+                onSubmit: function(params){
+                    var rs = $("#ffa").form("validate");
+                    return rs;
+                },
+                success:function(data){
+                    alert(data);
+                    $("#ddl").dialog("close");
+                    // 刷新
+                    $("#tb").datagrid("reload");
+                }
+            });
+
+        }
+    </script>
+</head>
+
+<body>
+<table  class="easyui-datagrid" height="auto" style="width:100%"  id="tb"
+        data-options="url:'../../lyq/oneselfplantab/queryAll',fitColumns:'true',toolbar:'#tools',singleSelect:true,pagination:true,pageNumber:1,pageSize:3,pageList:[1,2,3,4,5,10]">
+    <thead>
+    <tr>
+        <th data-options="field:'planId',width:30">编号</th>
+        <th data-options="field:'name',width:30">会员</th>
+        <th data-options="field:'needId',width:30">关联需求</th>
+        <th data-options="field:'routeInfo',width:80">路线</th>
+        <th data-options="field:'wayInfo',width:60">行程描述</th>
+        <th data-options="field:'trafficInfo',width:60">交通工具描述</th>
+        <th data-options="field:'taverbInfo',width:60">酒店描述</th>
+        <th data-options="field:'expectPay',width:60">预计金额</th>
+        <th data-options="field:'planState',width:60,formatter:(function(value,row,index){
+					if(0==value){
+					    return '已取消';
+					}else if(1==value){
+					    return '待确认';
+					}else if(2==value){
+					    return '已确认';
+					}
+				})">需求状态</th>
+        <th data-options="field:'empName',width:60,formatter:(function(value,row,index){
+					if(''==value){
+					    return '';
+					}else{
+					    return value;
+					}
+				})">操作人</th>
+        <th data-options="field:'operaDate',width:60">操作时间</th>
+    </tr>
+    </thead>
+</table>
+
+<!-- 工具栏 -->
+<div id="tools">
+    <a id="btn1" href="javascript:addRec()" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">制定套餐</a>
+    <a id="btn2" href="javascript:showDialog('edit')" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>
+    <a id="btn3" href="javascript:del()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a>
+</div>
+
+<div id="dl" class="easyui-dialog"  style="width:500px;height:300px;padding:10px 60px;">
+    <form id="ff" method="post">
+        <div style="margin-bottom:20px;width:300px"> <!--type="hidden"-->
+            <input  style="width:100%" type="hidden" name="planId" id="planId"/>
+            <input  style="width:100%" type="hidden" name="clientId" id="clientId"/>
+            <input  style="width:100%" type="hidden" name="needId" id="needId"/>
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="routeInfo" data-options="label:'路线：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="wayInfo" data-options="label:'行程描述：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="trafficInfo" data-options="label:'交通方式描述：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="taverbInfo" data-options="label:'酒店描述：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="expectPay" data-options="label:'预计金额：',required:true" />
+        </div>
+
+        <!--<div style="margin-bottom:20px;width:300px">
+            <select style="width:100%" class="easyui-combobox" name="tid" id="rt" label="房间类型：" data-options="url:'lyq/roomtype/queryAll',valueField:'tid',textField:'tname',required:true">
+
+            </select>
+        </div>-->
+        <div style="display:block">
+            <a href="javascript:submitForm()" class="easyui-linkbutton c6" iconcls="icon-ok" style="width:90px">提交</a>
+            <a href="javascript:clearForm()" class="easyui-linkbutton" style="width:90px">清空</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dl').dialog('close')" style="width:90px">取消</a>
+        </div>
+    </form>
+</div>
+
+<div id="ddl" closed="true" class="easyui-dialog"  style="width:500px;height:400px;padding:10px 60px;">
+    <form id="ffa" method="post">
+        <!--套餐状态为私人定制-->
+        <input type="hidden" name="comboState" value="2"/>
+        <input type="hidden" name="needId" id="needId2"/>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="title" data-options="label:'标题：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="route" data-options="label:'路线：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="beginCity" data-options="label:'出发城市：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="vehicle" data-options="label:'交通工具：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="countDay" data-options="label:'出行天数：',required:true" />
+        </div>
+
+        <div style="display:block">
+            <a href="javascript:submitForm2()" class="easyui-linkbutton c6" iconcls="icon-ok" style="width:90px">提交</a>
+            <a href="javascript:clearForm()" class="easyui-linkbutton" style="width:90px">清空</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#ddl').dialog('close')" style="width:90px">取消</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -16,6 +16,8 @@ public class PageList {
 		this.rows = rows;
 	}
 
+
+
 	public Long getTotal() {
 		return total;
 	}

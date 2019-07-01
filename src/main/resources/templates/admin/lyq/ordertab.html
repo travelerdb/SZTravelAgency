@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/myvalidate.js"></script>
+    <script type="text/javascript" src="../../../static/vue/vue.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/icon.css"/>
+
+    <script type="text/javascript">
+
+    </script>
+</head>
+<body>
+<table  class="easyui-datagrid" height="auto" style="width:100%"  id="tb"
+        data-options="url:'../../lyq/ordertab/queryAll',fitColumns:'true',toolbar:'#tools',singleSelect:true,pagination:true,pageNumber:1,pageSize:1,pageList:[1,2,3,4,5,10]">
+    <thead>
+    <tr>
+        <th data-options="field:'orderId',width:50">编号</th>
+        <th data-options="field:'orderDate',width:60">下单时间</th>
+        <th data-options="field:'payDate',width:60">支付时间</th>
+        <th data-options="field:'name',width:60">客户</th>
+        <th data-options="field:'title',width:60">所属套餐</th>
+        <th data-options="field:'issComId',width:60">所属发布套餐</th>
+        <th data-options="field:'joinAdult',width:60">成人</th>
+        <th data-options="field:'joinChildren',width:60">儿童</th>
+        <th data-options="field:'joinCount',width:60">参团总人数</th>
+        <th data-options="field:'payMoney',width:60">应付金额</th>
+        <th data-options="field:'orderState',width:60,formatter:(function(value,row,index){
+					if(0==value){
+					    return '等付款';
+					}else if(1==value){
+					    return '已付款';
+					}else if(2==value){
+					    return '待回访';
+					}else if(3==value){
+					    return '待出行';
+					}else if(4==value){
+					    return '出行中';
+					}else if(5==value){
+					    return '已结束';
+					}else if(6==value){
+					    return '已取消';
+					}
+				})">订单状态</th>
+    </tr>
+    </thead>
+</table>
+</body>
+</html>

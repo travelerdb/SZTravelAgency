@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"   xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../../static/easyui-1.5.2/myvalidate.js"></script>
+    <script type="text/javascript" src="../../../static/vue/vue.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/easyui-1.5.2/themes/icon.css"/>
+
+    <script type="text/javascript">
+
+        $(function(){
+            // 初始化datagrid数据表格
+            $("#tb").datagrid({
+
+                onDblClickRow: function (index, row) {
+                    $("#ff").form("reset");
+                    $("#clientId").textbox("setValue",row.clientId);
+                    $("#needId").textbox("setValue",row.needId);
+                    $("#dl").show();
+                }
+            });
+        });
+
+        //提交
+        function submitForm(){
+            $("#ff").form('submit', {
+                url:"../../lyq/oneselfplantab/add",
+                //提交的数据
+                onSubmit: function(params){
+                    var rs = $("#ff").form("validate");
+                    return rs;
+                },
+                success:function(data){
+                    $("#dl").hide();
+                    // 刷新
+                    $("#tb").datagrid("reload");
+                }
+            });
+
+        }
+
+        function cancel(){
+            $("#ff").form("reset");
+            $("#dl").hide();
+        }
+    </script>
+</head>
+
+<body>
+<table  class="easyui-datagrid" height="auto" style="width:100%"  id="tb"
+        data-options="url:'../../lyq/Oneselfneedtab/queryAll',fitColumns:'true',toolbar:'#tools',singleSelect:true,pagination:true,pageNumber:1,pageSize:1,pageList:[1,2,3,4,5,10]">
+    <thead>
+    <tr>
+        <th data-options="field:'needId',width:50">编号</th>
+        <th data-options="field:'name',width:60,formatter:(function(value,row,index){
+					if(''==value){
+					    return '';
+					}else{
+					    return value;
+					}
+				})">会员</th>
+        <th data-options="field:'beginCity',width:60">出发城市</th>
+        <th data-options="field:'countDay',width:60">天数</th>
+        <th data-options="field:'hopeCity',width:60">结束城市</th>
+        <th data-options="field:'expectAdule',width:60">成人</th>
+        <th data-options="field:'expectChild',width:60">儿童</th>
+        <th data-options="field:'expectPay',width:60">预计费用</th>
+        <th data-options="field:'needServe',width:60">提供服务</th>
+        <th data-options="field:'needNum',width:60">提供方案的数量</th>
+        <th data-options="field:'otherNeedInfo',width:60">其他服务</th>
+        <th data-options="field:'phone',width:60">电话</th>
+        <th data-options="field:'wechatNum',width:60">微信号</th>
+
+        <!--<th data-options="field:'rt',width:60,formatter:(function(value,row,index){
+					return value.tname;
+				})">房间类型</th>-->
+    </tr>
+    </thead>
+</table>
+
+<div id="dl"  hidden="hidden" style="width:500px;height:300px;padding:10px 60px;">
+    <form id="ff" method="post">
+        <div hidden="hidden" style="margin-bottom:20px;width:300px">
+            <input  style="width:100%" class="easyui-textbox" name="clientId" id="clientId"/>
+            <input  style="width:100%" class="easyui-textbox" name="needId" id="needId"/>
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="routeInfo" data-options="label:'路线：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="wayInfo" data-options="label:'行程描述：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="trafficInfo" data-options="label:'交通方式描述：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="taverbInfo" data-options="label:'酒店描述：',required:true" />
+        </div>
+        <div style="margin-bottom:20px;width:300px">
+            <input style="width:100%" class="easyui-textbox" name="expectPay" data-options="label:'预计金额：',required:true" />
+        </div>
+
+        <div style="display:block">
+            <a href="javascript:submitForm()" class="easyui-linkbutton c6" iconcls="icon-ok" style="width:90px">提交</a>
+            <a href="javascript:clearForm()" class="easyui-linkbutton" style="width:90px">清空</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:cancel()" style="width:90px">取消</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

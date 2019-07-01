@@ -1,17 +1,209 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <title>用户登陆-中州爱旅游</title>
-    <link type="text/css" th:href="@{/static/front_css/-f=-res-css-base.css,-res-css-user.css,-res-css-extend.css}" rel="stylesheet"/>
-    <link type="text/css" th:href="@{/static/front_css/-f=-usertpl-cl_st15578_m189_footer-css-footer.css}" rel="stylesheet"/>
+    <meta charset="UTF-8"/>
+    <title>index.html</title>
+
+    <link type="text/css" th:href="@{/static/front_css/-f=plugins-line-public-css-lines.css}" rel="stylesheet"/>
+    <link type="text/css" th:href="@{/static/front_css/-f=-res-css-base.css,-res-css-extend.css}"
+          tppabs="http://www.zzaly.com/min/?f=/res/css/base.css,/res/css/extend.css" rel="stylesheet"/>
     <script type="text/javascript"
-            th:src="@{/static/front_js/-f=-res-js-jquery.min.js,-res-js-base.js,-res-js-common.js,-res-js-jquery.validate.js,-res-js-jquery.md5.js}"></script>
+            th:src="@{/static/front_js/-f=-res-js-jquery.min.js,-res-js-base.js,-res-js-common.js,-res-js-SuperSlide.min.js,-res-js-template.js,-res-js-delayLoading.min.js}"></script>
+
+    <script type="text/javascript">
+        function queryCombo(obj,dolId,pageNum,pageSize){
+            var s="";
+            //var list=$(obj).parent().parent().find(".st-cp-list");
+            $(obj).html("");
+            $.post("../../lyq_front/combotab/queryByDolIdByPage", {"dolId": dolId,'pageNum':pageNum,'pageSize':pageSize}, function (data) {
+                $.each(data.list, function (index3, item3) {
+                    s+= '<li>' +
+                        '<div class="pic"><img src="../../../static/front_img/' + item3.comboImage + '" alt="' + item3.title + '" title="' + item3.title + '"/>' +
+                        '<div class="buy"><a href="javascript:void(0)" title="' + item3.title + '">立即预订</a></div>' +
+                        '</div>' +
+                        '<div class="js"><a class="tit" href="javascript:void(0)" target="_blank" title="' + item3.route + '"><span style="color:#CC6600">' + item3.route + '</span></a>' +
+                        '<p class="attr"><img src="../../../static/front_img/hot.png"/>' +
+                        '</p>' +
+                        '<p class="num">' +
+                        '<del>原价：<i class="currency_sy">￥</i>' + item3.adultPrice + '</del>' +
+                        '<span><b><i class="currency_sy">￥</i>' + item3.adultPrice + '</b>起</span></p>' +
+                        '</div>' +
+                        '</li>';
+
+                });
+                /* <![CDATA[ */
+                if(data.pageNum>1){
+
+                    var num=data.pageNum-1;//.parent().parent().find(".st-cp-list")
+                    s+='<a href="javascript:void(0)" onclick="findCombo3(this,'+dolId+','+num+',1)" title="上一页">上一页</a>';
+                }
+                if(data.pageNum==1 || data.pageNum<data.pageCount){
+                    var num=data.pageNum+1;
+                    s+='<a href="javascript:void(0)" onclick="findCombo3(this,'+dolId+','+num+',1)" title="下一页">下一页</a>';
+                }
+                /*]]>*/
+                $(obj).append(s);
+            });
+        }
+
+        function findCombo(obj,dolId,pageNum,pageSize){
+            var list=$(obj).parent().parent().find(".st-cp-list");
+            queryCombo(list,dolId,pageNum,pageSize);
+        }
+
+        function  findCombo3(obj,dolId,pageNum,pageSize) {
+            var list=$(obj).parent().parent().parent().find(".st-cp-list");
+            queryCombo(list,dolId,pageNum,pageSize);
+        }
+
+        function findCombo2(obj,dolId,pageNum,pageSize){
+            //添加样式
+            var ys=$(obj).attr("class");
+            $("."+ys).not(obj).addClass('on').siblings().removeClass('on');
+
+            var list=$(obj).parent().parent().parent().parent().parent().find(".st-cp-list");
+            queryCombo(list,dolId,pageNum,pageSize);
+        }
+
+        $.ajaxSetup({
+            async : false
+
+        });
+        $(function () {
+            //线路导航
+            $.post("../../lyq_front/combotype/queryAll",{},function(data){
+                var s='';
+                $.each(data, function(index, item){
+                    s+='<a href="javascript:void(0)"  target="_blank">'+item.comboTypeName+'</a>';
+                });
+                $(".mdd").append(s);
+            });
+
+            $.post("../../lyq_front/combotype/queryAll",{},function(data){
+                var s='';
+                $.each(data, function(index, item){
+                    s+='<dl>' +
+                        '                            <dt>' +
+                        '                                <a href="javascript:void(0)" target="_blank">'+item.comboTypeName+'</a>' +
+                        '                            </dt>'+
+                        '                            <dd>';
+                    $.post("../../lyq_front/comdoltype/queryByTypeId",{"typeId":item.typeId},function(data2){
+                        $.each(data2, function(index2, item2){
+                            s+= '                                <a href="javascript:void(0)">'+item2.dolName+'</a>';
+                        });
+
+                    });
+                        s+='</dd>'+
+                            '                        </dl>' ;
+                });
+                $(".yjtc").append(s);
+            });
+
+            //旅游导航
+            $.post("../../lyq_front/combotype/queryAll",{},function(data){
+                $.each(data, function(index, item){
+                    var s='<div class="global_list">' +
+                        '                    <div class="tit_bt"><h3><a href=" " target="_blank">'+item.comboTypeName+'<i></i></a></h3> <span>';
+                    //旅游导航下一级套餐类型下的二级套餐类型（只显示一个）
+                    $.post("../../lyq_front/comdoltype/queryByTypeId",{"typeId":item.typeId},function(data2){
+                        $.each(data2, function(index2, item2){
+                            s+='   <a href="javascript:void(0)" target="_blank"><span style="color:#FF6600">'+item2.dolName+'</span></a>';
+                        });
+                    });
+
+                        s+=' </span></div>' +
+                        '                    <div class="itme">';
+                    $.post("../../lyq_front/comdoltype/queryByTypeId",{"typeId":item.typeId},function(data2){
+                        $.each(data2, function(index2, item2){
+                            s+='                        <dl>' +
+                                '                            <dt>' +
+                                '                                <a href="javascript:void(0)" target="_blank"><span style="color:#FF6600">'+item2.dolName+'</span></a></dt>' +
+                                '                            <dd></dd>' +
+                                '                        </dl>';
+                        });
+                    });
+
+                        s+='                    </div>' +
+                        '                </div>';
+                    $(".global_box").append(s);
+                });
+            });
+
+            //左侧一级套餐类型
+            $.post("../../lyq_front/combotype/queryAll",{},function(data1){
+                var a=0;
+                    $.each(data1, function(index, item){
+                        a=a+1;
+                        var typeId=item.typeId;
+                        var comboTypeName=item.comboTypeName;
+                        var comboTypeImg=item.comboTypeImg;
+
+                        var s='<div class="st-cp-slideTab">' +
+                            '<div class="st-tabnav"><h3>'+comboTypeName+'</h3> <span>热门<i></i></span>';
+                        //右侧二级套餐类型
+                        $.post("../../lyq_front/comdoltype/queryByTypeId",{"typeId":item.typeId},function(data2){
+                            $.each(data2, function(index2, item2){
+                                s+='<span class="dol'+index2+a+'" onclick="findCombo(this,'+item2.dolId+',1,1)">'+item2.dolName+'<i></i></span>';
+                            });
+                        });
+                            s+='<a href="void(0)"  class="more">更多</a></div>' +
+                            '<div class="st-line-slidemenu">' +
+                            '<div class="slidemenu-list">' +
+                            '<dl>' +
+                            '<dt>热门目的地</dt>' +
+                            '<dd>';
+                            //一级套餐类型图片上的二级套餐类型
+                        $.post("../../lyq_front/comdoltype/queryByTypeId",{"typeId":item.typeId},function(data2){
+                                $.each(data2, function(index2, item2){
+                                    s+= '<a class="dol'+index2+a+'" href="javascript:void(0)" onclick="findCombo2(this,'+item2.dolId+',1,1)">'+item2.dolName+'</a>';
+                                });
+
+                            s+= '</dd>' +
+                                '</dl>' +
+                                '</div>' +
+                                '<div class="slidemenu-adbg"><img src="../../../static/front_img/'+comboTypeImg+'"/></div>' +
+                                '</div>' +
+                                '<div class="st-tabcon">' +
+                                '<ul class="st-cp-list">';
+                            //三级套餐
+                            $.post("../../lyq_front/comdoltype/queryByTypeId",{"typeId":item.typeId},function(data2) {
+                                $.each(data2, function (index2, item2) {
+                                    $.post("../../lyq_front/combotab/queryByDolId", {"dolId": item2.dolId}, function (data3) {
+                                        $.each(data3, function (index3, item3) {
+                                            s += '<li>' +
+                                                '<div class="pic"><img src="../../../static/front_img/' + item3.comboImage + '" alt="' + item3.title + '" title="' + item3.title + '"/>' +
+                                                '<div class="buy"><a href="javascript:void(0)" title="' + item3.title + '">立即预订</a></div>' +
+                                                '</div>' +
+                                                '<div class="js"><a class="tit" href="javascript:void(0)" target="_blank" title="' + item3.route + '"><span style="color:#CC6600">' + item3.route + '</span></a>' +
+                                                '<p class="attr"><img src="../../../static/front_img/hot.png"/>' +
+                                                '</p>' +
+                                                '<p class="num">' +
+                                                '<del>原价：<i class="currency_sy">￥</i>' + item3.adultPrice + '</del>' +
+                                                '<span><b><i class="currency_sy">￥</i>' + item3.adultPrice + '</b>起</span></p>' +
+                                                '</div>' +
+                                                '</li>';
+                                        });
+                                    });
+                                });
+                            });
+                                    s+='</ul>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="st-list-sd"><img src="../../../static/front_img/1a3846a709ec8fa2f3f7b24e688956ae_1200x110.jpg" title=""/></div>';
+                        });
+
+                            //alert(s);
+                        $(".st-line-home-lsit").append(s);
+                    });
+                });
+        });
+    </script>
 </head>
 <body>
-<link type="text/css" th:href="@{/static/front_css/-f=-usertpl-cl_st15578_m189_header-css-header.css}" rel="stylesheet"/>
-<!--<script type="text/javascript" th:src="@{/static/front_js/-f=-res-js-SuperSlide.min.js}"></script>-->
-<!-- 顶部介绍开始 -->
+<link type="text/css" th:href="@{/static/front_css/-f=-usertpl-cl_st15578_m189_header-css-header.css}"
+      tppabs="http://www.zzaly.com/min/?f=/usertpl/cl_st15578_m189_header/css/header.css" rel="stylesheet"/>
+<script type="text/javascript" th:src="@{/static/front_js/-f=-res-js-SuperSlide.min.js}"
+        tppabs="http://www.zzaly.com/min/?f=/res/js/SuperSlide.min.js"></script>
 <div class="header-content">
     <div class="wm-1200">
         <div class="public-txt"><p><span
@@ -19,8 +211,10 @@
         </p></div>
         <div class="dh fr"><span id="loginstatus"> </span> <a class="fl" rel="nofollow"
                                                               href="javascript:if(confirm(%27http://www.zzaly.com/search/order  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/order%27"
+                                                              tppabs="http://www.zzaly.com/search/order"
                                                               target="_blank">订单查询</a> <a class="fl" rel="nofollow"
                                                                                           href="javascript:if(confirm(%27http://www.zzaly.com/servers/index_1.html  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/servers/index_1.html%27"
+                                                                                          tppabs="http://www.zzaly.com/servers/index_1.html"
                                                                                           target="_blank">联系我们</a>
             <div class="top_web_map bor_bag fl">
                 <dl class="dh"><a class="web_nav_ico" href="javascript:;"><s></s>网站导航</a>
@@ -45,9 +239,7 @@
     <div class="wm-1200">
         <div class="top_mt">
             <div class="logo"><a
-                    href="javascript:if(confirm(%27http://www.zzaly.com/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/%27"
-                    tppabs="http://www.zzaly.com/"><img src="../../../static/front_img/6f904fff78610d2318afc112e673db28_298x85.png"
-                                                        alt="中州爱旅游--河南中州国际旅行社"/></a></div>
+                    href="javascript:void(0)"><img th:src="@{/static/front_img/6f904fff78610d2318afc112e673db28_298x85.png}" alt="中州爱旅游--河南中州国际旅行社"/></a></div>
             <div class="all_search">
                 <div class="top_search"><input type="text" id="st-top-search" class="s_txt g_search searchkeyword"
                                                placeholder="输入目的地、酒店、攻略"/> <input
@@ -59,104 +251,208 @@
                            target="_blank">普吉岛</a></div>
                 </div>
                 <div class="h_phone_num"><span>24小时客服电话：</span>
-                    <p>18603838974</p></div>
+                    <p>1593940xxxx</p></div>
             </div>
         </div>
     </div>
 </div>
-<!-- logo and search结束 --> <!-- 导航开始 -->
+<script>
+    $(function () {
+
+    })
+</script> <!-- logo and search结束 --> <!-- 导航开始 -->
 <div class="nav">
     <div class="menu">
         <div class="global_nav">
             <div class="global_tit">旅游导航</div>
             <div class="global_box">
-                <div class="global_list">
-                    <div class="tit_bt"><h3><a href=" " target="_blank">当季热卖<i></i></a></h3> <span>   <a
-                            href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0%27"
-                            tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0"
-                            target="_blank"><span style='color:#FF6600'>呼伦贝尔</span></a>  <a
-                            href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0%27"
-                            tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0"
-                            target="_blank"><span style='color:#FF6600'>鼓浪屿</span></a></span></div>
-                    <div class="itme">
-                        <dl>
-                            <dt>
-                                <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0%27"
-                                   tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%91%BC%E4%BC%A6%E8%B4%9D%E5%B0%94&amp;typeid=0"
-                                   target="_blank"><span style='color:#FF6600'>呼伦贝尔</span></a></dt>
-                            <dd></dd>
-                        </dl>
-                        <dl>
-                            <dt>
-                                <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0%27"
-                                   tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%8E%A6%E9%97%A8&amp;typeid=0"
-                                   target="_blank"><span style='color:#FF6600'>鼓浪屿</span></a></dt>
-                            <dd></dd>
-                        </dl>
-                    </div>
-                </div>
+
             </div>
         </div>
         <div class="main_nav_list">
             <ul>
-                <li>
-                    <a href="users/tologin">首页</a></li>
-                <li><a href="users/tologin"> 线路 <i class="st-hot-ico"></i><s></s> <i
+                <li><a href="users/tologin"> 首页 <i class="st-hot-ico"></i><s></s> <i
                         class="st-arrow-ico"></i> </a></li>
                 <li>
                     <a href="javascript:if(confirm(%27http://www.zzaly.com/tuan/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/tuan/%27"
-                       tppabs="http://www.zzaly.com/tuan/"> 团购 <i class="st-jian-ico"></i><s></s> </a></li>
+                       tppabs="http://www.zzaly.com/tuan/"> 特惠 <i class="st-jian-ico"></i><s></s> </a></li>
                 <li>
-                    <a href="javascript:if(confirm(%27http://www.zzaly.com/customize/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/customize/%27"
-                       tppabs="http://www.zzaly.com/customize/"> 私人定制 </a></li>
-                <li><a href="nazhoubianyou1.htm" tppabs="http://www.zzaly.com/lines/nazhoubianyou1"> 河南地接 <i
+                    <a href="javascript:void(0)"> 私人定制 </a></li>
+                <li><a href="javascript:void(0)"> 河南地接 <i
                         class="st-jing-ico"></i><s></s> <i class="st-arrow-ico"></i> </a></li>
-                <li>
-                    <a href="javascript:if(confirm(%27http://www.zzaly.com/visa/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/visa/%27"
-                       tppabs="http://www.zzaly.com/visa/"> 签证 <i class="st-hot-ico"></i><s></s> <i
-                            class="st-arrow-ico"></i> </a></li>
-                <li><a href=""> 毕业季，一起去撒欢 <i class="st-hot-ico"></i><s></s> </a></li>
+                <li><a href="users/tologin">个人中心</a></li>
+                <li><a href="users/tologin">订单查询</a></li>
+                <li><a href="users/tologin">客服中心</a></li>
             </ul>
         </div>
     </div>
-</div>
-<!-- 导航结束 -->
-<div class="st-userlogin-box"
-     style="background: url('../../../static/front_img/login.jpg')/*tpa=http://www.zzaly.com/uploads/background_img/login.jpg*/ center top no-repeat;">
-    <div class="st-login-wp">
-        <div class="st-admin-box">
-            <form id="loginfrm" method="post" body_div="sCUnMC">
-                <div class="login-account-key">
+</div> <!-- 导航结束 -->
+<script>
+    var SITEURL = "/";
+    $(function () {
+        //登陆状态
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: SITEURL + "member/login/ajax_is_login",
+            dataType: 'json',
+            success: function (data) {
+                if (data.status) {
+                    $txt = '<a class="fl" rel="nofollow" target="_blank" style="padding:0" href="javascript:;">你好,</a>';
+                    $txt += '<a class="fl" rel="nofollow" target="_blank" href="http://www.zzaly.com/member/">' + data.user.nickname + '</a>';
+                    $txt += '<a class="fl" rel="nofollow" target="_blank" href="http://www.zzaly.com/member/login/loginout">退出</a>';
+                    //$txt+= '<a class="fl" href="http://www.zzaly.com/member">个人中心</a>';
+                } else {
+                    $txt = '<a class="fl" rel="nofollow" target="_blank" href="http://www.zzaly.com/member/login">登录</a>';
+                    $txt += '<a class="fl" rel="nofollow" target="_blank" href="http://www.zzaly.com/member/register">免费注册</a>';
+                }
+                $("#loginstatus").html($txt);
+            }
+        })
+        //search
+        $('.st-btn').click(function () {
+            var keyword = $('.searchkeyword').val();
+            if (keyword == '') {
+                $('.searchkeyword').focus();
+                return false;
+            }
+            //var url = "http://www.zzaly.com"+'/all?keyword='+encodeURIComponent(keyword);
+            var url = "http://www.zzaly.com" + '/search/cloudsearch?keyword=' + encodeURIComponent(keyword) + '&amp;typeid=0';
+            location.href = url;
+        })
+        //search focus
+        var topSearch = {};
+        topSearch.placeholder = $('#st-top-search').attr('placeholder');
+        /*topSearch.spanHtml = $('#dt-top-search-span').html();*/
+        $('#st-top-search').focus(function () {
+            $('#st-top-search').attr('placeholder', '');
+            /*$('#dt-top-search-span').html('');*/
+            $(this).keyup(function (event) {
+                if (event.keyCode == 13) {
+                    $('.st-btn').click();
+                }
+            });
+        });
+        $('#st-top-search').blur(function () {
+            if ($(this).val() == '') {
+                $('#st-top-search').attr('placeholder', topSearch.placeholder);
+                /* $('#dt-top-search-span').html(topSearch.spanHtml);*/
+            }
+        });
+    })
+</script>
+<div class="big">
+    <div class="wm-1200">
+        <div class="st-guide"><a
+                href="javascript:if(confirm(%27http://www.zzaly.com/  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/%27"
+                tppabs="http://www.zzaly.com/">首页</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;线路
+        </div><!--面包屑-->
+        <div class="st-line-home-top">
+            <div class="st-line-dh">
+                <div class="st-dh-tit">线路导航</div>
+                <div class="st-dh-con">
+                    <h3><strong>旅游目的地</strong>
+                        <p class="mdd">
+                        </p></h3>
+                    <div class="st-dh-item yjtc">
+                    </div>
+                </div>
+                <div class="st-dh-con">
+                    <h3 class="bor_0"><strong>交通选择</strong>
+                        <p>
+                            <a href="javascript:if(confirm(%27http://www.zzaly.com/lines/all-0-0-0-0-0-10-1  \n\nThis file was not retrieved by Teleport Ultra, because it was unavailable, or its retrieval was aborted, or the project was stopped too soon.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/lines/all-0-0-0-0-0-10-1%27"
+                               tppabs="http://www.zzaly.com/lines/all-0-0-0-0-0-10-1">火车</a> <a
+                                href="javascript:if(confirm(%27http://www.zzaly.com/lines/all-0-0-0-0-0-11-1  \n\nThis file was not retrieved by Teleport Ultra, because it was unavailable, or its retrieval was aborted, or the project was stopped too soon.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/lines/all-0-0-0-0-0-11-1%27"
+                                tppabs="http://www.zzaly.com/lines/all-0-0-0-0-0-11-1">飞机</a> <a
+                                href="javascript:if(confirm(%27http://www.zzaly.com/lines/all-0-0-0-0-0-12-1  \n\nThis file was not retrieved by Teleport Ultra, because it was unavailable, or its retrieval was aborted, or the project was stopped too soon.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/lines/all-0-0-0-0-0-12-1%27"
+                                tppabs="http://www.zzaly.com/lines/all-0-0-0-0-0-12-1">汽车</a> <a
+                                href="javascript:if(confirm(%27http://www.zzaly.com/lines/all-0-0-0-0-0-13-1  \n\nThis file was not retrieved by Teleport Ultra, because it was unavailable, or its retrieval was aborted, or the project was stopped too soon.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/lines/all-0-0-0-0-0-13-1%27"
+                                tppabs="http://www.zzaly.com/lines/all-0-0-0-0-0-13-1">游轮</a></p></h3>
+                    <div class="st-dh-item">
+                        <dl>
+                            <dt><a target="_blank">交通选择</a></dt>
+                            <dd>
+                                <a href="javascript:if(confirm(%27http://www.zzaly.com/lines/all-0-0-0-0-0-10-1  \n\nThis file was not retrieved by Teleport Ultra, because it was unavailable, or its retrieval was aborted, or the project was stopped too soon.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/lines/all-0-0-0-0-0-10-1%27"
+                                   tppabs="http://www.zzaly.com/lines/all-0-0-0-0-0-10-1">火车</a> <a
+                                    href="javascript:if(confirm(%27http://www.zzaly.com/lines/all-0-0-0-0-0-11-1  \n\nThis file was not retrieved by Teleport Ultra, because it was unavailable, or its retrieval was aborted, or the project was stopped too soon.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/lines/all-0-0-0-0-0-11-1%27"
+                                    tppabs="http://www.zzaly.com/lines/all-0-0-0-0-0-11-1">飞机</a> <a
+                                    href="javascript:if(confirm(%27http://www.zzaly.com/lines/all-0-0-0-0-0-12-1  \n\nThis file was not retrieved by Teleport Ultra, because it was unavailable, or its retrieval was aborted, or the project was stopped too soon.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/lines/all-0-0-0-0-0-12-1%27"
+                                    tppabs="http://www.zzaly.com/lines/all-0-0-0-0-0-12-1">汽车</a> <a
+                                    href="javascript:if(confirm(%27http://www.zzaly.com/lines/all-0-0-0-0-0-13-1  \n\nThis file was not retrieved by Teleport Ultra, because it was unavailable, or its retrieval was aborted, or the project was stopped too soon.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/lines/all-0-0-0-0-0-13-1%27"
+                                    tppabs="http://www.zzaly.com/lines/all-0-0-0-0-0-13-1">游轮</a></dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="st-dh-con">
+                    <h3 class="bor_0"><strong>节日特惠</strong>
+                        <p></p></h3>
+                    <div class="st-dh-item">
+                        <dl>
+                            <dt><a target="_blank">节日特惠</a></dt>
+                            <dd></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div><!--线路分类导航-->
+            <div id="st-line-slideBox" class="st-line-slideBox">
+                <div class="hd">
                     <ul>
-                        <li class="number"><span class="tb"></span> <input type="text" class="np-box" name="loginname"
-                                                                           id="loginname" placeholder="请输入手机号或邮箱"/></li>
-                        <li class="password"><span class="tb"></span> <input type="password" class="np-box"
-                                                                             name="loginpwd" id="loginpwd"
-                                                                             placeholder="请输入登录密码"/></li>
-                        <li class="forget"><span class="login_err"></span> <a href="findpwd.html"
-                                                                              tppabs="http://www.zzaly.com/member/findpwd">忘记密码？</a>
+                        <li>$k</li>
+                        <li>$k</li>
+                        <li>$k</li>
+                        <li>$k</li>
+                        <li>$k</li>
+                        <li>$k</li>
+                    </ul>
+                </div>
+                <div class="bd">
+                    <ul>
+                        <li>
+                            <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A&amp;typeid=0%27"
+                               tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A&amp;typeid=0"
+                               target="_blank"><img th:src="@{/static/front_img/grey.gif}"
+                                                    original-src="../../../static/front_img/211af49e340a37b75c3c322d85f13c67_858x324.jpg"/></a>
                         </li>
-                        <li class="dl-btn"><a href="javascript:;" class="btn_login">登 录</a></li>
-                        <li class="now-zc">您还没有账号？<a href="register.html" tppabs="http://www.zzaly.com/member/register">立刻注册</a>
+                        <li><a href="nazhoubianyou1.htm" tppabs="http://www.zzaly.com/lines/nazhoubianyou1"
+                               target="_blank"><img th:src="@{/static/front_img/grey.gif}"
+                                                    original-src="../../../static/front_img/0189b8ca97af36adf22cd9a23eb5a36b_858x324.png"/></a>
+                        </li>
+                        <li>
+                            <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E4%BA%91%E5%8D%97&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E4%BA%91%E5%8D%97&amp;typeid=0%27"
+                               tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E4%BA%91%E5%8D%97&amp;typeid=0"
+                               target="_blank"><img th:src="@{/static/front_img/grey.gif}"
+                                                    original-src="../../../static/front_img/fa5f6c53cc1eb60d333aacdf298dd28d_858x324.png"/></a>
+                        </li>
+                        <li>
+                            <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E9%A9%AC%E5%B0%94%E4%BB%A3%E5%A4%AB&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E9%A9%AC%E5%B0%94%E4%BB%A3%E5%A4%AB&amp;typeid=0%27"
+                               tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E9%A9%AC%E5%B0%94%E4%BB%A3%E5%A4%AB&amp;typeid=0"
+                               target="_blank"><img th:src="@{/static/front_img/grey.gif}"
+                                                    original-src="../../../static/front_img/16d12a8c6d7efdcfb4a7d4e0f5cb5e8f_858x324.png"/></a>
+                        </li>
+                        <li>
+                            <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8F%B0%E6%B9%BE&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8F%B0%E6%B9%BE&amp;typeid=0%27"
+                               tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%8F%B0%E6%B9%BE&amp;typeid=0"
+                               target="_blank"><img th:src="@{/static/front_img/grey.gif}"
+                                                    original-src="../../../static/front_img/45f62a936e09907b83a6cc25108c123f_858x324.png"/></a>
+                        </li>
+                        <li>
+                            <a href="javascript:if(confirm(%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8C%97%E4%BA%AC&amp;typeid=0  \n\nThis file was not retrieved by Teleport Ultra, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.zzaly.com/search/cloudsearch?keyword=%E5%8C%97%E4%BA%AC&amp;typeid=0%27"
+                               tppabs="http://www.zzaly.com/search/cloudsearch?keyword=%E5%8C%97%E4%BA%AC&amp;typeid=0"
+                               target="_blank"><img th:src="@{/static/front_img/grey.gif}"
+                                                    original-src="../../../static/front_img/fd330532606d892674a7196cf39fa2d9_858x324.png"/></a>
                         </li>
                     </ul>
-                    <input type="hidden" name="logincode" id="frmcode" value="efb756bfdc004f499bb73a39e8baa899"/> <input
-                        type="hidden" name="fromurl" id="fromurl" value="http://www.zzaly.com/member/"/></div>
-            </form>
-            <div class="other-login">
-                <dl>
-                    <dt><span>使用其他方式登录</span><em></em></dt>
-                    <dd><a class="qq qqlogin"
-                           href="javascript:void(0)">QQ</a>
-                        <a class="wb wblogin"
-                           href="javascript:void(0)">wb</a>
-                    </dd>
-                </dl>
-            </div>
+                </div> <!--前/后按钮代码--> <a class="prev" href="javascript:void(0)"></a> <a class="next"
+                                                                                        href="javascript:void(0)"></a>
+            </div><!--线路首页焦点图--> </div>
+        <!--zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz-->
+        <div class="st-line-home-lsit">
+
         </div>
     </div>
 </div>
-
+<link type="text/css" th:href="@{/static/front_css/-f=-usertpl-cl_st15578_m189_footer-css-footer.css}"
+      tppabs="http://www.zzaly.com/min/?f=/usertpl/cl_st15578_m189_footer/css/footer.css" rel="stylesheet"/>
 <div class="st-brand">
     <div class="wm-1200">
         <div class="st-serve">
@@ -231,83 +527,54 @@
         })
     }
 </script>
-<script type="text/javascript" th:src="@{/static/front_js/-f=-res-js-layer-layer.js}"></script>
+<script type="text/html" id="tpl_line">
+    <ul class="st-cp-list">
+        {{each list as value i}}
+        <li>
+            <div class="pic"><img class="fl" src="{{value.litpic}}" alt="{{value.title}}"
+                                  title="{{value.title}}"
+                                  width="285" height="190"/>
+                <div class="buy"><a href="{{value.url}}" title="{{value.title}}">立即预订</a></div>
+            </div>
+            <div class="js"><a class="tit" href="{{value.url}}" title="{{value.title}}" target="_blank">{{if
+                value.color}}<span
+                        style="color:{{value.color}}">{{value.title}}</span>{{else}}{{value.title}}{{/if}}</a>
+                <p class="attr">
+                    {{each value.iconlist as ico k}}
+                    <img src="{{ico['litpic']}}"/>
+                    {{/each}}
+                </p>
+                <p class="num">
+                    {{if value.sellprice>0}}
+                    <del>原价：<i class="currency_sy">￥</i>{{value.sellprice}}</del>
+                    {{/if}}
+                    {{if value.price>0}}
+                    <span><b><i class="currency_sy">￥</i>{{value.price}}</b>起</span>
+                    {{else}}
+                    <span><b>电询</b></span>
+                    {{/if}}
+                </p>
+            </div>
+        </li>
+        {{/each}}
+    </ul> </script>
 <script>
     $(function () {
-        document.onkeydown = function (e) {
-            var ev = document.all ? window.event : e;
-            if (ev.keyCode == 13) {
-                $(".btn_login").trigger('click');
-            }
-        }
-
-        //登陆
-        $(".btn_login").click(function () {
-            $("#loginfrm").submit();
+        //线路首页焦点图
+        $('.st-line-slideBox').slide({
+            mainCell: '.bd ul',
+            effect: "fold",
+            interTime: 5000,
+            delayTime: 500,
+            autoPlay: true,
+            switchLoad: 'original-src'
         })
-        $("#loginfrm").validate({
-            rules: {
-                loginname: {
-                    required: true
-                },
-                loginpwd: {
-                    required: true,
-                    minlength: 6
-                }
-            },
-            messages: {
-                loginname: {
-                    required: '用户名不能为空'
-                },
-                loginpwd: {
-                    required: '用户密码不能为空',
-                    minlength: '密码长度至少6位'
-                }
-            },
-            errorPlacement: function (error, element) {
-                var content = $('#loginfrm').find('.login_err:eq(0)').html();
-                if (content == '') {
-                    $('#loginfrm').find('.login_err').html(error);
-                }
-            },
-            showErrors: function (errorMap, errorList) {
-                if (errorList.length &lt; 1) {
-                    $('#loginfrm').find('.login_err:eq(0)').html('');
-                } else {
-                    this.defaultShowErrors();
-                }
-            },
-            submitHandler: function (form) {
-                var url = SITEURL + 'member/login/ajax_login';
-                var loginname = $("#loginname").val();
-                var loginpwd = $.md5($("#loginpwd").val());
-                var frmcode = $("#frmcode").val();
-                $.ajax({
-                    type: "post",
-                    async: false,
-                    url: url,
-                    data: {loginname: loginname, loginpwd: loginpwd, frmcode: frmcode},
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.status == '1') {//登陆成功,跳转到来源网址
-                            var url = $("#fromurl").val();
-                            setTimeout(function () {
-                                window.open(url, '_self');
-                            }, 500);
-                            $('body').append(data.js);//同步登陆js
-                        } else {
-                            if (data.msg != undefined) {
-                                $(".login_err").html(data.msg);
-                            } else {
-                                $(".login_err").html('用户名或者密码错误');
-                            }
-                        }
-                    },
-                    error: function (a, b, c) {
-                    }
-                });
-                return false;
-            }
+        //选中第一个选项
+        $('.st-tabnav').each(function (i, obj) {
+            $(obj).find('span').first().addClass('on');
+        })
+        $('.st-tabnav').find('span').click(function () {
+            $(this).addClass('on').siblings().removeClass('on');
         })
     })
 </script>
